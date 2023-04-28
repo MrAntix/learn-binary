@@ -1,0 +1,146 @@
+<html>
+
+<head>
+    <title>Binary</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+</head>
+
+<script>
+    const smilieData = [
+        [0, 0, 1, 0, 0, 1, 0, 0],
+        [0, 0, 1, 0, 0, 1, 0, 0],
+        [0, 0, 1, 0, 0, 1, 0, 0],
+        [0, 0, 0, 0, 0, 0, 0, 0],
+        [1, 0, 0, 0, 0, 0, 0, 1],
+        [1, 0, 0, 0, 0, 0, 0, 1],
+        [0, 1, 0, 0, 0, 0, 1, 0],
+        [0, 0, 1, 1, 1, 1, 0, 0],
+    ];
+
+    class SpriteComponent extends HTMLElement {
+
+        connectedCallback() {
+            this.render();
+        }
+
+        attributeChangedCallback() {
+            this.render();
+        }
+
+        value = smilieData;
+
+        render() {
+            const data = this.value;
+
+            this.innerHTML = `<table>
+    <tfoot>
+        <tr>
+            <th></th>
+            <th>128</th>
+            <th>64</th>
+            <th>32</th>
+            <th>16</th>
+            <th>8</th>
+            <th>4</th>
+            <th>2</th>
+            <th>1</th>            
+            <th></th>
+        </tr>
+    </tfoot>
+    <tbody>
+        ${data.map((r, y) => `<tr>
+
+            <th>
+                ${r.map((c, x) => data[y][x]).join('')}
+            </th>
+
+            ${r.map((c, x) => `<td${data[y][x] ? ' class="on"' : ''}></td>`).join('')}
+
+            <th>
+                <input value="${toDecimal(data[y])}" data-y="${y}" />
+            </th>
+        </tr>`).join('')}
+    </tbody>
+</table>`;
+
+            [...this.querySelectorAll('input')]
+                .map(el => el.onchange = e => this.setData(e))
+        }
+
+        setData(e) {
+            console.log(e.target.dataset.y)
+
+            this.value = this.value.map((r, i) => i == e.target.dataset.y ? toBinary(e.target.value) : r);
+            this.render();
+        }
+    }
+
+    customElements.define('a-sprite', SpriteComponent);
+
+    function toDecimal(a) {
+
+        return a.reduce((t, b, i) => t + (b === 1 ? Math.pow(2, 7 - i) : 0), 0)
+    }
+
+    function toBinary(v) {
+
+        return [0, 0, 0, 0, 0, 0, 0, 0].map((_, i) => v & Math.pow(2, 7 - i) ? 1 : 0);
+    }
+</script>
+
+<style>
+    html {
+        font-size: 5vmin;
+    }
+
+    body {
+        min-height: 100%;
+        min-width: 100%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    table {
+        table-layout: fixed;
+        border-collapse: collapse;
+    }
+
+    th,
+    td {
+        vertical-align: middle;
+        text-align: center;
+        font-family: monospace;
+    }
+
+    td {
+        width: 1.5rem;
+        height: 1.5rem;
+        aspect-ratio: 1;
+        font-size: 1.5rem;
+    }
+
+    td.on {
+        background-color: #ccc;
+    }
+
+    tbody th {
+        width: 75px;
+    }
+
+    input {
+        min-width: 0;
+        width: 4em;
+        text-align: center;
+        font-family: monospace;
+        font-weight: 600;
+    }
+</style>
+
+<body>
+
+    <a-sprite></a-sprite>
+
+</body>
+
+</html>
