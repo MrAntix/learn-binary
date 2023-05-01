@@ -81,23 +81,11 @@
         const timer = document.querySelector('a-timer');
         const editor = document.querySelector('a-sprite-edit');
 
-        const startButton = document.querySelector('#StartButton');
+        const startButton = document.querySelector('#Start button');
         const game = document.querySelector('#Game');
 
         const keys = Object.keys(sprites).slice(1);
         let currentKey = 0;
-
-        startButton.addEventListener('click', async () => {
-
-            setSprite();
-            timer.start();
-            timer.total = keys.length;
-            editor.disabled = false;
-
-            startButton.style.marginTop = '-30em';
-            startButton.style.opacity = 0;
-            startButton.style.zIndex = -1;
-        });
 
         const setSprite = async () => {
 
@@ -109,40 +97,60 @@
             editor.scrollIntoView({ behavior: "smooth", block: "end" });
         };
 
-        editor.addEventListener(CHANGE_EVENT, async e => {
+        const start = () => {
+            currentKey = 0;
 
-            if (arraysEqual(task.data, e.detail)) {
-                editor.classList.add('success');
-                editor.disabled = true;
+            setSprite();
+            timer.start();
+            timer.total = keys.length;
+            editor.disabled = false;
 
-                const flash = window.setInterval(() =>
-                    editor.classList.toggle('success'),
-                    300
-                );
+            startButton.parentElement.style.marginTop = '-30em';
+            startButton.parentElement.style.opacity = 0;
+            startButton.parentElement.style.zIndex = -1;
+        };
 
-                const complete = currentKey === keys.length - 1;
-                if (complete) {
-                    timer.stop();
-                    startButton.innerText = `Well done, complete in ${timer.seconds} seconds`;
-                    startButton.style.marginTop = null;
-                    startButton.style.opacity = 1;
-                    startButton.style.zIndex = 1;
+        const next = async (data) => {
+            if (!arraysEqual(task.data, data)) return;
 
-                    timer.reset();
+            editor.classList.add('success');
+            editor.disabled = true;
 
-                    return;
-                }
+            const flash = window.setInterval(() =>
+                editor.classList.toggle('success'),
+                300
+            );
 
-                await wait(2000);
-
-                window.clearInterval(flash);
-                editor.classList.remove('success');
-                editor.disabled = false;
-
-                currentKey++;
-                setSprite();
+            if (currentKey === keys.length - 1) {
+                complete();
+                return;
             }
-        });
+
+            timer.stop();
+            await wait(2000);
+            timer.start()
+
+            window.clearInterval(flash);
+            editor.classList.remove('success');
+            editor.disabled = false;
+
+            currentKey++;
+            setSprite();
+        };
+
+        const complete = () => {
+            timer.stop();
+
+            startButton.innerText = `Well done, complete in ${timer.seconds} seconds`;
+            startButton.parentElement.style.marginTop = null;
+            startButton.parentElement.style.opacity = 1;
+            startButton.parentElement.style.zIndex = 1;
+
+            timer.reset();
+        };
+
+        startButton.addEventListener('click', () => start());
+        editor.addEventListener(CHANGE_EVENT, e => next(e.detail));
     }
 
     class SpriteEditComponent extends HTMLElement {
@@ -443,6 +451,10 @@
         --border-color: hsl(var(--primary-h), var(--primary-s), calc(1.333 * var(--primary-l)));
     }
 
+    * {
+        box-sizing: border-box;
+    }
+
     html {
         font-size: 3vmin;
     }
@@ -469,22 +481,25 @@
     }
 
     #Game,
-    #StartButton {
+    #Start {
         grid-column: 1;
         grid-row: 1;
     }
 
-    #StartButton {
+    #Start {
+        display: flex;
+        align-items: center;
+        justify-content: center;
         transition: all ease-in-out .3s;
         margin-top: -5em;
     }
 
-    #StartButton::after {
-        position: absolute;
-        z-index: -1;
+    #Start::after {
+        position: fixed;
         inset: 0;
         content: '';
-        background-color: #3693;
+        background-color: #0006;
+        pointer-events: none;
     }
 
     #Game {
@@ -588,7 +603,9 @@
         </div>
     </div>
 
-    <button id="StartButton">Start</button>
+    <div id="Start">
+        <button>Start</button>
+    </div>
 
 </body>
 
