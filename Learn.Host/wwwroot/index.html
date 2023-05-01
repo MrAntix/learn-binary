@@ -6,7 +6,6 @@
     <meta name="theme-color" content="#336699">
     <link rel="shortcut icon" type="image/png" href="app.icon.png" />
 
-
     <meta name="Keywords" content=".NET,JS,Architect,Developer,for hire." />
     <meta name="Description" content="Anthony Johnston .NET/JS Architect and Developer for hire." />
 </head>
@@ -149,8 +148,16 @@
             timer.reset();
         };
 
+        const setTheme = (hue) => {
+            document.documentElement.style.setProperty('--primary-h', hue);
+
+            const theme = document.querySelector('meta[name="theme-color"]');
+            theme.setAttribute('content', getComputedStyle(document.body).backgroundColor);
+        }
+
         startButton.addEventListener('click', () => start());
         editor.addEventListener(CHANGE_EVENT, e => next(e.detail));
+        timer.addEventListener(CHANGE_EVENT, e => setTheme(210 - Math.round(e.detail / 5)));
     }
 
     class SpriteEditComponent extends HTMLElement {
@@ -361,7 +368,7 @@
 
             this.elements.forEach((el, i) => el.classList.toggle('on', this.value & Math.pow(2, this.elements.length - 1 - i)));
 
-            document.documentElement.style.setProperty('--primary-h', 210 - Math.round(this.value / 25));
+            this.dispatchEvent(new CustomEvent(CHANGE_EVENT, { detail: this.value }));
         }
 
         elements = [];
@@ -476,8 +483,13 @@
         padding: 1em 2em;
         color: var(--primary-color-alt);
         background-color: var(--primary-color);
-        border: solid 20px #0002;
+        border: solid .2em #fff3;
         border-radius: var(--border-radius);
+        transition: filter ease .2s;
+    }
+
+    button:hover {
+        filter: brightness(1.2);
     }
 
     #Game,
@@ -498,8 +510,12 @@
         position: fixed;
         inset: 0;
         content: '';
-        background-color: #0006;
+        background-color: hsl(var(--primary-h), var(--primary-s), var(--primary-l), .8);
         pointer-events: none;
+    }
+
+    #Start button {
+        box-shadow: 0 0 50px #0003;
     }
 
     #Game {
@@ -526,9 +542,19 @@
     }
 
     tbody {
+        position: relative;
         border-radius: var(--border-radius);
         border: solid var(--border-width) var(--border-color);
         box-shadow: 0 0 50px #0003;
+    }
+
+    tbody::after {
+        position: absolute;
+        z-index: -1;
+        inset: 0;
+        content: '';
+        background-color: #0002;
+        pointer-events: none;
     }
 
     th,
