@@ -1,0 +1,27 @@
+@import url(../global/common.css);
+
+:host {
+    display: inline-block;
+    box-sizing: border-box;
+
+    --cell-border: var(--a-timer-cell-border, solid 1px transparent);
+    --cell-background-color: var(--a-timer-cell-background-color, #0001);
+}
+
+table {
+    flex: 1;
+    table-layout: fixed;
+    border-collapse: collapse;
+}
+
+td {
+    overflow: hidden;
+    width: 1em;
+    height: 1em;
+    border: var(--cell-border);
+    background-color: var(--cell-background-color);
+}
+
+td.on {
+    background-color: currentColor;
+}

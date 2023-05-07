@@ -1,0 +1,65 @@
+@import url(../global/common.css);
+
+:host {
+    display: inline-block;
+    box-sizing: border-box;
+
+    --cell-border-width: var(--a-binary-grid-cell-border-width, 1px);
+    --cell-border-color: var(--a-binary-grid-cell-border-color, transparent);
+    --cell-border: solid var(--cell-border-width) var(--cell-border-color);
+    --cell-background-color: var(--a-binary-grid-cell-background-color, #0001);
+    --row-selected-border-width: var(--a-binary-grid-row-selected-border-width, .15em);
+    --row-selected-border-color: var(--a-binary-grid-row-selected-border-color, var(--primary-color));
+    --row-selected-border-radius: var(--a-binary-grid-row-selected-border-radius, var(--border-radius));
+
+    user-select: none;
+}
+
+table {
+    font-size: 1em;
+    color: inherit;
+    table-layout: fixed;
+    border-collapse: collapse;
+}
+
+tr.selected {
+    position: relative;
+    z-index: 1;
+    box-shadow: 0 0 0 var(--row-selected-border-width) var(--row-selected-border-color);
+    border-radius: var(--row-selected-border-radius);
+}
+
+tr.selected th {
+    color: var(--background-color);
+    background-color: var(--color);
+}
+
+tr.has-error {
+    border-right: solid var(--row-selected-border-width) var(--error-color);
+}
+
+thead th {
+    font-size: .4em;
+}
+
+th {
+    opacity: .667;
+    padding: var(--padding-unit) 0;
+}
+
+td {
+    overflow: hidden;
+    width: 1em;
+    height: 1em;
+    border: var(--cell-border);
+    background-color: var(--cell-background-color);
+}
+
+td.on {
+    background-color: currentColor;
+}
+
+th.binary {
+    font-size: .6em;
+    padding: 0 var(--padding-unit);
+}
