@@ -1,0 +1,36 @@
+* {
+    box-sizing: border-box;
+}
+
+th,
+td {
+    padding: 0;
+}
+
+:disabled {
+    filter: contrast(.5);
+}
+
+input,
+button {
+    font: inherit;
+    font-size: 1rem;
+}
+
+input {
+    min-width: 0;
+}
+
+button {
+    z-index: 1;
+    color: var(--primary-color-alt);
+    background-color: var(--lowlight-color);
+    border: none;
+    border-radius: var(--border-radius);
+    padding: var(--padding-unit) calc(2 * var(--padding-unit));
+    transition: filter ease .2s;
+}
+
+button:hover {
+    filter: var(--hover-filter);
+}

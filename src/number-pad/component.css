@@ -1,0 +1,42 @@
+:host {
+    display: inline-block;
+    margin-left: auto;
+    align-self: flex-end;
+    user-select: none;
+}
+
+table {
+    table-layout: fixed;
+    font-size: inherit;
+}
+
+th,
+td {
+    text-align: center;
+    width: 2em;
+    height: 2em;
+    font-weight: bold;
+
+    border: none;
+    border-radius: var(--border-radius);
+    transition: filter ease .2s;
+
+    cursor: pointer;
+}
+
+td:not(:empty) {
+    background-color: var(--highlight-color);
+
+}
+
+th {
+
+    color: var(--button-color);
+    background-color: var(--button-background-color);
+}
+
+th:hover,
+td:not(:empty):hover,
+.pressed {
+    filter: var(--hover-filter);
+}

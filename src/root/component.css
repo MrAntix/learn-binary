@@ -1,0 +1,51 @@
+:host {
+    display: contents;
+}
+
+#Board {
+    flex: 1 0 auto;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-wrap: wrap;
+}
+
+#Timer {
+    margin-left: auto;
+}
+
+a-binary-grid {
+    font-size: 4.25vmax;
+    padding: .2em;
+}
+
+#TargetGrid {
+    font-size: 3vmax;
+    opacity: .9;
+}
+
+#Control {
+    flex: 0 0 0;
+    display: flex;
+    flex-wrap: wrap;
+}
+
+#Footer {
+    display: flex;
+    align-items: center;
+}
+
+#InputRowValue {
+    flex-grow: 1;
+    font-size: 8vmax;
+    text-align: center;
+}
+
+#InputRowValue small {
+    font-size: 3vmax;
+}
+
+#Input {
+    font-size: 2vmax;
+    flex: 0 0 auto
+}

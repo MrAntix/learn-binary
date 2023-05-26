@@ -1,0 +1,97 @@
+@import url(../global/common.css);
+
+:host {
+    position: fixed;
+    inset: 0;
+
+    user-select: none;
+    pointer-events: none;
+
+    display: grid;
+    grid-template-columns: 1fr;
+    grid-template-rows: 1fr;
+
+    align-items: center;
+    justify-items: center;
+
+    z-index: 1000;
+
+    --scope-header-background-color: var(--notifications-header-background-color, rgba(255, 255, 255, .025));
+    --scope-footer-background-color: var(--notifications-header-background-color, rgba(0, 0, 0, .05));
+
+    --scope-border-radius: var(--notifications-border-radius, var(--border-radius));
+    --scope-padding: 0 var(--notifications-padding, 20px);
+    --scope-animation-duration: var(--notifications-animation-duration, .2s)
+}
+
+.notification {
+
+    user-select: text;
+    pointer-events: all;
+
+    grid-column: 1;
+    grid-row: 1;
+
+}
+
+.content {
+    opacity: 0;
+    transform: translateY(-10px);
+    transition: all var(--scope-animation-duration) ease-in-out;
+
+    background: var(--background-color);
+
+    border-radius: var(--scope-border-radius);
+    box-shadow: 0 .2em 100px rgba(0, 0, 0, .5);
+}
+
+.shown .content {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+.modal::before {
+    content: '';
+    z-index: -1;
+
+    position: fixed;
+    inset: 0;
+
+    opacity: 0;
+    background: rgba(0, 0, 0, .5);
+    transition: all var(--scope-animation-duration) ease-in-out;
+}
+
+.shown.modal::before {
+    opacity: 1;
+}
+
+.header {
+    display: flex;
+    align-items: center;
+    background-color: var(--scope-header-background-color);
+}
+
+.title {
+    flex: 1;
+}
+
+.close {
+    cursor: pointer;
+    padding-left: var(--scope-padding);
+}
+
+.footer {
+    display: flex;
+    align-items: center;
+    background-color: var(--scope-footer-background-color);
+}
+
+section {
+    padding: var(--scope-padding);
+}
+
+section+section {
+
+    padding-top: var(--scope-padding);
+}

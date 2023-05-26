@@ -1,0 +1,12 @@
+@import url(../global/common.css);
+
+:host {
+    fill: currentColor;
+}
+
+svg {
+    vertical-align: -10%;
+    height: 1em;
+    fill: currentColor;
+    overflow: visible;
+}
