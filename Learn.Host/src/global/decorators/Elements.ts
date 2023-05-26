@@ -1,5 +1,5 @@
-import DOMPurify from "dompurify";
-import { animationFrame, wait } from "../utils";
+import DOMPurify from 'dompurify';
+import { animationFrame } from '../utils';
 
 /**
  * the result of an html tag function
@@ -44,14 +44,14 @@ export class ElementsResult extends Array<unknown> {
             = df => {
                 mo.disconnect();
                 resolve(df);
-            }
+            };
 
         const getRefValue: (fn: unknown) => string = callback => {
             const key = `_${Object.keys(callbacks).length}`;
             callbacks[key] = callback as Callback;
 
             return key;
-        }
+        };
 
         const walk = (value: unknown) => Array.isArray(value)
             ? value.map(walk).join('')
@@ -66,9 +66,8 @@ export class ElementsResult extends Array<unknown> {
         }
 
         template.innerHTML = html;
-    })
-};
-
+    });
+}
 
 /**
  * HTML tag function

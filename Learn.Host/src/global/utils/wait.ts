@@ -10,4 +10,3 @@ export const wait: (interval: number) => Promise<void> = interval => {
     });
 };
 
-

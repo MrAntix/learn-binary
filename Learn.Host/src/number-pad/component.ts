@@ -98,13 +98,13 @@ export class ANumberPadComponent extends HTMLElement implements IComponent {
 
         return html`
             <table><tbody>
-                <tr><th data-key="1">1</th><th data-key="2">2</th><th data-key="3">3</th><td></td></tr>
+                <tr><th data-key="1">1</th><th data-key="2">2</th><th data-key="3">3</th><td data-key="Enter" colspan="2"><a-icon type="enter" /></td></tr>
                 <tr><th data-key="4">4</th><th data-key="5">5</th><th data-key="6">6</th><td data-key="ArrowUp"><a-icon type="arrow-head" rotate="180" /></td></tr>
                 <tr><th data-key="7">7</th><th data-key="8">8</th><th data-key="9">9</th><td data-key="ArrowDown"><a-icon type="arrow-head" /></td></tr>
                 <tr>
                     <td data-key="Backspace"><a-icon type="backspace" /></td>
                     <th data-key="0">0</th>
-                    <td data-key="Enter" colspan="2"><a-icon type="enter" /></td>
+                    <td></td>
                 </tr>
             </tbody></table>
         `;

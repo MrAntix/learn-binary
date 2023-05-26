@@ -1,4 +1,4 @@
-import { elements } from "./Elements";
+import { elements } from './Elements';
 
 describe('Elements', () => {
 
@@ -12,7 +12,7 @@ describe('Elements', () => {
     it('should create dom', async () => {
 
         const ref = (name: string) =>
-            (el: HTMLElement) => { el.setAttribute('ref', name) };
+            (el: HTMLElement) => { el.setAttribute('ref', name); };
 
         const sub = () => elements`<div ${ref('inner')}>sub</div>`;
 

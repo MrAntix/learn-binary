@@ -1,14 +1,13 @@
-import { html, Component, Watch, toDecimal, toBinaryArray, arraysEqual, ScoresService, ref, wait } from '../global';
+import { html, elements, Component, Watch, toDecimal, toBinaryArray, arraysEqual, ScoresService, wait } from '../global';
 import { ABinaryGridComponent, ABinaryGridSelect } from '../binary-grid/component';
 import { bitmaps, emptyBitmap } from '../global/data';
-import DOMPurify from "dompurify";
+import DOMPurify from 'dompurify';
 
 import css from './component.css';
 import { ATimerComponent } from '../timer/component';
 import { NotificationService } from '../notifications/NotificationService';
 import { ANumberPadComponent } from '../number-pad/component';
 import { IScoreCard } from '../global';
-import { elements } from '../global/decorators/Elements';
 
 @Component({
     css
@@ -39,7 +38,7 @@ export class ARootComponent extends HTMLElement implements IComponent {
                 console.log('names', names);
                 do {
                     const name = names[Math.floor(Math.random() * names.length)];
-                    if (!this.scores.getByName(name)) this.bitmapName = name
+                    if (!this.scores.getByName(name)) this.bitmapName = name;
                 } while (!this.bitmapName);
             }
         }
@@ -105,7 +104,7 @@ export class ARootComponent extends HTMLElement implements IComponent {
             submit.disabled = found
                 || !input.value
                 || Object.keys(bitmaps).includes(input.value);
-        }
+        };
 
         const gridRef = (el: ABinaryGridComponent) => {
 
@@ -116,7 +115,7 @@ export class ARootComponent extends HTMLElement implements IComponent {
                 el.toggleValue(e.detail.col, e.detail.row);
                 validate();
             });
-        }
+        };
 
         const clearRef = (el: HTMLButtonElement) => {
 
@@ -124,7 +123,7 @@ export class ARootComponent extends HTMLElement implements IComponent {
                 grid.value = emptyBitmap;
                 validate();
             });
-        }
+        };
 
         const inputRef = (el: HTMLInputElement) => {
 
@@ -133,7 +132,7 @@ export class ARootComponent extends HTMLElement implements IComponent {
 
                 validate();
             });
-        }
+        };
 
         const submitRef = (el: HTMLButtonElement) => {
 
@@ -147,9 +146,9 @@ export class ARootComponent extends HTMLElement implements IComponent {
                     `mailto:bot@antix.co.uk?subject=bitmap: ${DOMPurify.sanitize(input.value)}&body=${json}`
                 );
             });
-        }
+        };
 
-        const id = await this.notifications.show({
+        await this.notifications.show({
             title: elements`
                 <h3>You won!</h3>
                 <p>Come back tomorrow for another go.</p>
@@ -209,8 +208,7 @@ export class ARootComponent extends HTMLElement implements IComponent {
                 <div id="Footer">
                     <span id="InputRowValue">
                         <small>
-                        press number to start<br />
-                        enter to apply
+                            press a number to start
                         </small>
                     </span>
                     <a-number-pad disabled id="Input"></a-number-pad>

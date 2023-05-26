@@ -10,7 +10,7 @@ export const emptyBitmap: bits[] = [
     [0, 0, 0, 0, 0, 0, 0, 0],
     [0, 0, 0, 0, 0, 0, 0, 0],
     [0, 0, 0, 0, 0, 0, 0, 0],
-    [0, 0, 0, 0, 0, 0, 0, 0],
+    [0, 0, 0, 0, 0, 0, 0, 0]
 ];
 
 const data = {
@@ -239,7 +239,7 @@ const data = {
         [0, 0, 0, 0, 1, 1, 0, 0],
         [0, 0, 0, 0, 1, 0, 1, 0],
         [0, 0, 0, 0, 1, 0, 1, 0],
-        [0, 0, 1, 1, 1, 0, , 0],
+        [0, 0, 1, 1, 1, 0, 0, 0],
         [0, 1, 1, 1, 1, 0, 0, 0],
         [0, 1, 1, 1, 1, 0, 0, 0],
         [0, 0, 1, 1, 0, 0, 0, 0],
@@ -426,4 +426,4 @@ const data = {
     ]
 };
 
-export const bitmaps: { [key in BitmapTypes]: bits[] } = data as unknown as any;
+export const bitmaps = data as { [key in BitmapTypes]: bits[] };

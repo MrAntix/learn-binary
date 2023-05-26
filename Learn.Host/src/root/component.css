@@ -42,10 +42,10 @@ a-binary-grid {
 }
 
 #InputRowValue small {
-    font-size: 3vmax;
+    font-size: 3.5vmax;
 }
 
 #Input {
-    font-size: 2vmax;
+    font-size: 3vmax;
     flex: 0 0 auto
 }
