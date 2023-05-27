@@ -142,8 +142,14 @@ export class ARootComponent extends HTMLElement implements IComponent {
                 const json = JSON.stringify(grid.value);
                 //await navigator.clipboard.writeText(json);
 
+                const name = DOMPurify.sanitize(input.value)
+                const body = json
+                    .replace('[[', '[%0D%0A[')
+                    .replaceAll('],[', '],%0D%0A[')
+                    .replace(']]', ']%0D%0A]');
+
                 window.location.assign(
-                    `mailto:bot@antix.co.uk?subject=bitmap: ${DOMPurify.sanitize(input.value)}&body=${json}`
+                    `mailto:binary@antix.co.uk?subject=bitmap: ${name}&body="${name}": ${body}`
                 );
             });
         };

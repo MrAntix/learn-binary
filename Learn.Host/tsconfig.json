@@ -8,6 +8,7 @@
     "jsx": "react",
     "lib": [
       "ESNext",
+      "ES2021.String",
       "DOM",
       "DOM.Iterable"
     ],
