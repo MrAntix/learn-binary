@@ -4,13 +4,13 @@
     display: inline-block;
     box-sizing: border-box;
 
-    --cell-border-width: var(--a-binary-grid-cell-border-width, 1px);
-    --cell-border-color: var(--a-binary-grid-cell-border-color, transparent);
+    --cell-border-width: var(--a-bit-grid-cell-border-width, 1px);
+    --cell-border-color: var(--a-bit-grid-cell-border-color, transparent);
     --cell-border: solid var(--cell-border-width) var(--cell-border-color);
-    --cell-background-color: var(--a-binary-grid-cell-background-color, #0001);
-    --row-selected-border-width: var(--a-binary-grid-row-selected-border-width, .15em);
-    --row-selected-border-color: var(--a-binary-grid-row-selected-border-color, var(--primary-color));
-    --row-selected-border-radius: var(--a-binary-grid-row-selected-border-radius, var(--border-radius));
+    --cell-background-color: var(--a-bit-grid-cell-background-color, #0001);
+    --row-selected-border-width: var(--a-bit-grid-row-selected-border-width, .15em);
+    --row-selected-border-color: var(--a-bit-grid-row-selected-border-color, var(--primary-color));
+    --row-selected-border-radius: var(--a-bit-grid-row-selected-border-radius, var(--border-radius));
 
     user-select: none;
 }

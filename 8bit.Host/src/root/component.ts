@@ -1,5 +1,5 @@
 import { html, elements, Component, Watch, toDecimal, toBinaryArray, arraysEqual, ScoresService, wait } from '../global';
-import { ABinaryGridComponent, ABinaryGridSelect } from '../binary-grid/component';
+import { ABitGridComponent, ABinaryGridSelect } from '../bit-grid/component';
 import { bitmaps, emptyBitmap } from '../global/data';
 import DOMPurify from 'dompurify';
 
@@ -35,9 +35,9 @@ export class ARootComponent extends HTMLElement implements IComponent {
 
             if (!this.score) {
 
-                console.log('names', names);
                 do {
                     const name = names[Math.floor(Math.random() * names.length)];
+
                     if (!this.scores.getByName(name)) this.bitmapName = name;
                 } while (!this.bitmapName);
             }
@@ -91,7 +91,7 @@ export class ARootComponent extends HTMLElement implements IComponent {
 
     showComplete = async () => {
 
-        let grid: ABinaryGridComponent;
+        let grid: ABitGridComponent;
         let input: HTMLInputElement;
         let submit: HTMLButtonElement;
 
@@ -106,7 +106,7 @@ export class ARootComponent extends HTMLElement implements IComponent {
                 || Object.keys(bitmaps).includes(input.value);
         };
 
-        const gridRef = (el: ABinaryGridComponent) => {
+        const gridRef = (el: ABitGridComponent) => {
 
             grid = el;
             el.value = bitmaps[this.bitmapName];
@@ -156,18 +156,18 @@ export class ARootComponent extends HTMLElement implements IComponent {
 
         await this.notifications.show({
             title: elements`
-                <h3>You won!</h3>
+                <h1>You won!</h1>
                 <p>Come back tomorrow for another go.</p>
                 `,
             body: elements`
                 <style>
-                    a-binary-grid{font-size:2.2em;margin:0 auto}
+                    a-bit-grid{font-size:2.2em;margin:0 auto}
                     p{display:flex}
                     input{margin-left:auto;flex-basis:12em}
                 </style>                
                 <p>In the meantime, make your own bitmap and submit for inclusion below.</p>
                 <p>
-                    <a-binary-grid show-binary ${gridRef} />
+                    <a-bit-grid show-binary ${gridRef} />
                 </p>
                 <p>Should be a new bitmap and new name too.</p>
                 <p>
@@ -182,7 +182,7 @@ export class ARootComponent extends HTMLElement implements IComponent {
         });
     };
 
-    targetGridElement: ABinaryGridComponent;
+    targetGridElement: ABitGridComponent;
 
     inputRow: number | null = null;
     @Watch('inputRow') inputRowChanged() {
@@ -198,7 +198,7 @@ export class ARootComponent extends HTMLElement implements IComponent {
     }
     inputRowValue: string = '';
     inputRowValueElement: HTMLSpanElement;
-    inputGridElement: ABinaryGridComponent;
+    inputGridElement: ABitGridComponent;
 
     render() {
 
@@ -206,13 +206,14 @@ export class ARootComponent extends HTMLElement implements IComponent {
             <a-timer id="Timer" bits="16"></a-timer>
 
             <div id="Board">
-                <a-binary-grid id="TargetGrid" show-header show-binary></a-binary-grid>
-                <a-binary-grid id="InputGrid"></a-binary-grid> 
+                <a-bit-grid id="TargetGrid" show-header show-binary></a-bit-grid>
+                <a-bit-grid id="InputGrid"></a-bit-grid> 
             </div>
 
             ${!this.score && html`
                 <div id="Footer">
                     <span id="InputRowValue">
+                        8bit<br />
                         <small>
                             press a number to start
                         </small>
@@ -227,10 +228,10 @@ export class ARootComponent extends HTMLElement implements IComponent {
     afterRender() {
         this.timerElement = this.shadowRoot.querySelector<ATimerComponent>('#Timer');
 
-        this.targetGridElement = this.shadowRoot.querySelector<ABinaryGridComponent>('#TargetGrid');
+        this.targetGridElement = this.shadowRoot.querySelector<ABitGridComponent>('#TargetGrid');
         this.targetGridElement.value = bitmaps[this.bitmapName];
 
-        this.inputGridElement = this.shadowRoot.querySelector<ABinaryGridComponent>('#InputGrid');
+        this.inputGridElement = this.shadowRoot.querySelector<ABitGridComponent>('#InputGrid');
         this.inputGridElement.addEventListener('select', this.handleRowClick);
 
         if (this.score) {

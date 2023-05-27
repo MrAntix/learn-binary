@@ -19,12 +19,14 @@ button {
 
 input {
     min-width: 0;
+    color: var(--input-color);
+    background-color: var(--input-background-color);
 }
 
 button {
     z-index: 1;
-    color: var(--primary-color-alt);
-    background-color: var(--lowlight-color);
+    color: var(--button-color);
+    background-color: var(--button-background-color);
     border: none;
     border-radius: var(--border-radius);
     padding: var(--padding-unit) calc(2 * var(--padding-unit));

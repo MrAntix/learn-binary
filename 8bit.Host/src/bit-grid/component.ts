@@ -6,7 +6,7 @@ import css from './component.css';
 @Component({
     css
 })
-export class ABinaryGridComponent extends HTMLElement implements IComponent {
+export class ABitGridComponent extends HTMLElement implements IComponent {
 
     connectedCallback() {
 

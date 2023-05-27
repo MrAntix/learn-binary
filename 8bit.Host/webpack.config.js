@@ -37,6 +37,9 @@ module.exports = {
     plugins: [
         new CopyPlugin({
             patterns: [
+                { context: 'src', from: "**/web.config" },
+                { context: 'src', from: "**/manifest.json" },
+                { context: 'src', from: "**/service-worker.js" },
                 { context: 'src', from: "**/*.html" },
                 { context: 'src', from: "**/*.png" },
             ],

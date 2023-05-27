@@ -24,11 +24,6 @@ td {
     cursor: pointer;
 }
 
-td:not(:empty) {
-    background-color: var(--highlight-color);
-
-}
-
 th {
 
     color: var(--button-color);
