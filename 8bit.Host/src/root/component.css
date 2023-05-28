@@ -15,12 +15,12 @@
 }
 
 a-bit-grid {
-    font-size: 4.25vmax;
+    font-size: 3.11em;
     padding: .2em;
 }
 
 #TargetGrid {
-    font-size: 3vmax;
+    font-size: 2.2em;
     opacity: .9;
 }
 
@@ -37,15 +37,15 @@ a-bit-grid {
 
 #InputRowValue {
     flex-grow: 1;
-    font-size: 8vmax;
+    font-size: 3em;
     text-align: center;
 }
 
 #InputRowValue small {
-    font-size: 3.5vmax;
+    font-size: .5em;
 }
 
 #Input {
-    font-size: 3vmax;
+    font-size: 2em;
     flex: 0 0 auto
 }
