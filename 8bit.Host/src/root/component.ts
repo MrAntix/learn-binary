@@ -92,18 +92,15 @@ export class ARootComponent extends HTMLElement implements IComponent {
     showComplete = async () => {
 
         let grid: ABitGridComponent;
-        let input: HTMLInputElement;
         let submit: HTMLButtonElement;
 
         const validate = () => {
-            const found = !!Object.keys(bitmaps)
+            const found = Object.keys(bitmaps)
                 .find(key => arraysEqual(bitmaps[key], grid.value))
-                || arraysEqual(emptyBitmap, grid.value);
+                || arraysEqual(emptyBitmap, grid.value) && 'empty';
 
-            input.disabled = found;
-            submit.disabled = found
-                || !input.value
-                || Object.keys(bitmaps).includes(input.value);
+            submit.disabled = !!found;
+            submit.innerText = found ? `Exists '${found}'` : 'New Submit';
         };
 
         const gridRef = (el: ABitGridComponent) => {
@@ -125,18 +122,10 @@ export class ARootComponent extends HTMLElement implements IComponent {
             });
         };
 
-        const inputRef = (el: HTMLInputElement) => {
-
-            input = el;
-            el.addEventListener('input', () => {
-
-                validate();
-            });
-        };
-
         const submitRef = (el: HTMLButtonElement) => {
 
             submit = el;
+            validate();
         };
 
         const formRef = (el: HTMLFormElement) => {
@@ -148,14 +137,13 @@ export class ARootComponent extends HTMLElement implements IComponent {
                 const json = JSON.stringify(grid.value);
                 //await navigator.clipboard.writeText(json);
 
-                const name = DOMPurify.sanitize(input.value);
                 const body = json
                     .replace('[[', '[%0D%0A[')
                     .replaceAll('],[', '],%0D%0A[')
                     .replace(']]', ']%0D%0A]');
 
                 window.location.assign(
-                    `mailto:binary@antix.co.uk?subject=bitmap: ${name}&body=${name}: ${body},`
+                    `mailto:binary@antix.co.uk?subject=bitmap: [give it a name]&body=${body},`
                 );
             });
         }
@@ -169,19 +157,17 @@ export class ARootComponent extends HTMLElement implements IComponent {
                 <style>
                     a-bit-grid{font-size:2.2em;margin:0 auto}
                     p{display:flex}
-                    input{margin-left:auto;flex-basis:12em}
+                    .submit{margin-left:auto}
                 </style>                
                 <p>In the meantime, make your own bitmap and submit for inclusion below.</p>
                 <p>
                     <a-bit-grid show-binary ${gridRef} />
                 </p>
-                <p>Should be a new bitmap and new name too.</p>
                 <form ${formRef}>
-                <p>
-                    <button ${clearRef} type="button">Clear</button>
-                    <input ${inputRef} disabled type="text" placeholder="(name)" />
-                    <button ${submitRef} class="submit" type="submit" disabled>Submit</button>
-                </p>
+                    <p>
+                        <button ${clearRef} type="button">Clear</button>
+                        <button ${submitRef} class="submit" type="submit" disabled>Submit</button>
+                    </p>
                 </form>
                 <br />
                 `,
