@@ -43,8 +43,6 @@ export class ARootComponent extends HTMLElement implements IComponent {
             }
         }
 
-        this.bitmapName = 'wolf';
-
         this.render();
     }
 
@@ -139,7 +137,13 @@ export class ARootComponent extends HTMLElement implements IComponent {
         const submitRef = (el: HTMLButtonElement) => {
 
             submit = el;
-            el.addEventListener('click', async () => {
+        };
+
+        const formRef = (el: HTMLFormElement) => {
+
+            el.addEventListener('submit', async (e: Event) => {
+
+                e.preventDefault();
 
                 const json = JSON.stringify(grid.value);
                 //await navigator.clipboard.writeText(json);
@@ -154,7 +158,7 @@ export class ARootComponent extends HTMLElement implements IComponent {
                     `mailto:binary@antix.co.uk?subject=bitmap: ${name}&body=${name}: ${body},`
                 );
             });
-        };
+        }
 
         await this.notifications.show({
             title: elements`
@@ -172,11 +176,13 @@ export class ARootComponent extends HTMLElement implements IComponent {
                     <a-bit-grid show-binary ${gridRef} />
                 </p>
                 <p>Should be a new bitmap and new name too.</p>
+                <form ${formRef}>
                 <p>
-                    <button ${clearRef}>Clear</button>
+                    <button ${clearRef} type="button">Clear</button>
                     <input ${inputRef} disabled type="text" placeholder="(name)" />
-                    <button ${submitRef} class="submit" disabled>Submit</button>
+                    <button ${submitRef} class="submit" type="submit" disabled>Submit</button>
                 </p>
+                </form>
                 <br />
                 `,
             modal: true,

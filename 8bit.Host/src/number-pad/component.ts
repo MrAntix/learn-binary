@@ -41,7 +41,7 @@ export class ANumberPadComponent extends HTMLElement implements IComponent {
     readonly handleClick = (e: PointerEvent) => {
         const cell = e.composedPath().find(el => el['dataset']?.key) as HTMLElement;
 
-        this.act(cell.dataset.key);
+        this.act(cell?.dataset?.key);
     };
 
     readonly handleKeyDown = (e: KeyboardEvent) => {
@@ -114,7 +114,7 @@ export class ANumberPadComponent extends HTMLElement implements IComponent {
 
         [...this.shadowRoot.querySelectorAll<HTMLElement>('th,td')]
             .forEach(element => {
-                if (element.dataset.key)
+                if (element.dataset?.key)
                     this.elements[element.dataset.key] = element;
             });
     }

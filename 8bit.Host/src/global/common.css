@@ -29,7 +29,7 @@ button {
     background-color: var(--button-background-color);
     border: none;
     border-radius: var(--border-radius);
-    padding: var(--padding-unit) calc(2 * var(--padding-unit));
+    padding: calc(2 * var(--padding-unit));
     transition: filter ease .2s;
 }
 
