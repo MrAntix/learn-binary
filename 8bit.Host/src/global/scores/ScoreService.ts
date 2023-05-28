@@ -1,6 +1,7 @@
 import { parse } from '../utils';
 import { IScoreCard } from './IScoreCard';
 import { ScoreCardSchema } from './ScoreCardSchema';
+import { ScoreState } from './ScoreState';
 
 /**
  * Service for storing and retrieving score cards.
@@ -11,44 +12,41 @@ export class ScoresService {
 
     constructor() {
 
-        JSON.parse(
-            localStorage.getItem(ScoresService.KEYS) || '[]'
-        ).forEach((key: string) => {
-            const data = localStorage.getItem(key);
-            if (!data) return;
-
-            this.scores[key] = parse(data, ScoreCardSchema);
-        });
+        this._state = new ScoreState(JSON.parse(
+            (localStorage.getItem(ScoresService.KEYS) || '[]')
+        )
+            .map((key: string) => parse(localStorage.getItem(key), ScoreCardSchema))
+            .filter((s: IScoreCard) => s != null)
+        )
     }
 
-    get count() { return Object.keys(this.scores).length; }
-    private scores: { [key: string]: IScoreCard; } = {};
+    private _state: ScoreState;
+
+    get count() { return this._state.count; }
+    get averageTimeSeconds() { return this._state.averageTimeSeconds; }
+    get averageErrors() { return this._state.averageErrors; }
 
     set(value: IScoreCard) {
-        const key = ScoresService.getKey(value.date);
-        this.scores[key] = value;
+        this._state = this._state.add(value);
 
         localStorage.setItem(ScoresService.KEYS,
-            JSON.stringify(Object.keys(this.scores))
+            JSON.stringify(Object.keys(this._state.byDateKey))
         );
 
+        const key = ScoreState.getDateKey(value.date);
         localStorage.setItem(key,
             JSON.stringify(value)
         );
     }
 
     getByDate(date: Date) {
-        const key = ScoresService.getKey(date);
+        const key = ScoreState.getDateKey(date);
 
-        return this.scores[key];
+        return this._state.byDateKey[key];
     }
 
     getByName(name: string) {
-        return Object.values(this.scores)
-            .find(s => s.name === name);
-    }
 
-    static getKey(d: Date) {
-        return `${d.getFullYear()}-${d.getMonth() + 1}-${d.getDate()}`;
+        return this._state.byName[name];
     }
 }

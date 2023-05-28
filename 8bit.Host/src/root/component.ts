@@ -8,7 +8,6 @@ import { ATimerComponent } from '../timer/component';
 import { NotificationService } from '../notifications/NotificationService';
 import { ANumberPadComponent } from '../number-pad/component';
 import { IScoreCard } from '../global';
-import { HTMLLiteralCallback } from '../global/literals/HTMLLiteralCallback';
 
 @Component({
     css
@@ -31,10 +30,10 @@ export class ARootComponent extends HTMLElement implements IComponent {
             });
         } else {
 
-            this.score = this.scores.getByDate(new Date());
-            this.bitmapName = this.score?.name;
+            this.completedScore = this.scores.getByDate(new Date());
+            this.bitmapName = this.completedScore?.name;
 
-            if (!this.score) {
+            if (!this.completedScore) {
 
                 do {
                     const name = names[Math.floor(Math.random() * names.length)];
@@ -55,7 +54,8 @@ export class ARootComponent extends HTMLElement implements IComponent {
     timerElement: ATimerComponent;
     numberPadElement: ANumberPadComponent;
 
-    score: IScoreCard;
+    completedScore: IScoreCard;
+
     started: boolean = false;
     completed: boolean = false;
     errors: number = 0;
@@ -79,13 +79,15 @@ export class ARootComponent extends HTMLElement implements IComponent {
         this.inputRow = null;
         this.numberPadElement.disabled = true;
 
-        this.score = {
+        this.completedScore = {
             date: new Date(),
             name: this.bitmapName,
             timeSeconds: this.timerElement.valueSeconds,
             errors: this.errors
         };
-        this.scores.set(this.score);
+        this.scores.set(this.completedScore);
+
+        this.errors = 0;
 
         this.showComplete();
     };
@@ -151,8 +153,10 @@ export class ARootComponent extends HTMLElement implements IComponent {
 
         await this.notifications.show({
             title: html`
-                <h1>You won!</h1>
-                <p>Come back tomorrow for another go.</p>
+                ${this.completedScore && this.renderScore(this.completedScore)}                
+                <h3>You have completed ${this.scores.count} / ${Object.keys(bitmaps).length} bitmaps.</h3>
+                <p>Average Time:&nbsp;&nbsp;&nbsp;${this.scores.averageTimeSeconds}s</p>
+                <p>Average Errors:&nbsp;${this.scores.averageErrors}</p>
                 `,
             body: html`
                 <style>
@@ -160,6 +164,7 @@ export class ARootComponent extends HTMLElement implements IComponent {
                     p{display:flex}
                     .submit{margin-left:auto}
                 </style>                
+                <h4>Come back tomorrow for another go.</h4>
                 <p>In the meantime, make your own bitmap and submit for inclusion below.</p>
                 <p>
                     <a-bit-grid show-binary ${gridRef} />
@@ -176,6 +181,11 @@ export class ARootComponent extends HTMLElement implements IComponent {
             allowClose: false
         });
     };
+
+    renderScore = (score: IScoreCard) => html`
+        <h1>
+            You took ${score.timeSeconds}s and had ${score.errors} errors
+        </h1>`;
 
     targetGridElement: ABitGridComponent;
 
@@ -205,7 +215,7 @@ export class ARootComponent extends HTMLElement implements IComponent {
                 <a-bit-grid id="InputGrid"></a-bit-grid> 
             </div>
 
-            ${!this.score && html`
+            ${!this.completedScore && html`
                 <div id="Footer">
                     <span id="InputRowValue">
                         8bit<br />
@@ -229,7 +239,7 @@ export class ARootComponent extends HTMLElement implements IComponent {
         this.inputGridElement = this.shadowRoot.querySelector<ABitGridComponent>('#InputGrid');
         this.inputGridElement.addEventListener('select', this.handleRowClick);
 
-        if (this.score) {
+        if (this.completedScore) {
             this.started = true;
             this.completed = true;
 
@@ -309,12 +319,16 @@ export class ARootComponent extends HTMLElement implements IComponent {
             ...this.inputGridElement.value.slice(this.inputRow + 1)
         ];
 
+        const error = !arraysEqual(
+            this.targetGridElement.value[this.inputRow],
+            this.inputGridElement.value[this.inputRow]
+        );
+
         this.inputGridElement.setRowError(
             this.inputRow,
-            !arraysEqual(
-                this.targetGridElement.value[this.inputRow],
-                this.inputGridElement.value[this.inputRow]
-            ));
+            error);
+
+        if (error) this.errors++;
 
         if (arraysEqual(
             this.targetGridElement.value,
