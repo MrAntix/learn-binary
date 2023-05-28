@@ -93,11 +93,16 @@
             grid-template-columns: 1fr;
             grid-template-rows: auto 1fr auto;
             align-items: center;
-            justify-content: center;
+            justify-items: center;
             background-color: var(--background-color);
             color: var(--color);
 
             background-image: radial-gradient(circle at bottom right, #0001 0, transparent 100%);
+        }
+
+        noscript {
+            display: inline-block;
+            max-width: 30em;
         }
     </style>
 </head>
@@ -106,7 +111,9 @@
     <a-root></a-root>
 
     <noscript>
-        <p>Hello there, I need JavaScript to work properly</p>
+        <h1>8bit</h1>
+        <h2>Hello there, this is a game to help you learn binary</h2>
+        <h3>It needs JavaScript enabled to work</h3>
     </noscript>
 </body>
 
