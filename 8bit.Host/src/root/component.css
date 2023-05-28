@@ -37,12 +37,12 @@ a-bit-grid {
 
 #InputRowValue {
     flex-grow: 1;
-    font-size: 3em;
+    font-size: 4em;
     text-align: center;
 }
 
 #InputRowValue small {
-    font-size: .5em;
+    font-size: .4em;
 }
 
 #Input {
