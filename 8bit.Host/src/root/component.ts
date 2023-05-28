@@ -43,6 +43,8 @@ export class ARootComponent extends HTMLElement implements IComponent {
             }
         }
 
+        this.bitmapName = 'wolf';
+
         this.render();
     }
 
