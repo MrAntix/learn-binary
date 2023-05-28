@@ -1,6 +1,5 @@
 import { HIDE_NOTIFICATION_EVENT, SHOW_NOTIFICATION_EVENT } from '../events';
 import { Component, html, wait } from '../global';
-import { elements } from '../global/decorators/Elements';
 import { INotification } from './INotification';
 
 import css from './component.css';
@@ -32,26 +31,26 @@ export class ANotificationsComponent extends HTMLElement implements IComponent {
         element.classList.add('notification');
         if (notification.modal) element.classList.add('modal');
 
-        elements`
+        html`
             <div class="content">
                 ${(notification.title || notification.allowClose) && html`
                     <section class="header">
                         <div class="title">${notification.title}</div>
-                        ${notification.allowClose && elements`<div class="close">&times;</div>`}
+                        ${notification.allowClose && html`<div class="close">&times;</div>`}
                     </section>
                 `}
-                ${notification.body && elements`
+                ${notification.body && html`
                     <section class="body">
                         ${notification.body}
                     </section>
                 `}
-                ${notification.footer && elements`
+                ${notification.footer && html`
                     <section class="footer">
                         ${notification.footer}
                     </section>
                 `}
             </div>
-        `.render().then(df => element.appendChild(df));
+        `.render(element);
 
         this.shadowRoot.appendChild(element);
 

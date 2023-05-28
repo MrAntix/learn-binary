@@ -50,16 +50,12 @@ export function Component(
             logger.debug('render', this);
 
             this.__render = window.setTimeout(() => beforeRenderPromise.call(this)
-                .then(() => {
+                .then(async () => {
 
-                    const content = renderFn
-                        ? renderFn.call(this).render()
-                        : '';
-                    this.shadowRoot.innerHTML =
-                        `
-                        ${style}
-                        ${content}
-                        `;
+                    this.shadowRoot.innerHTML = style;
+                    const content = renderFn && renderFn.call(this);
+                    if (content && 'render' in content)
+                        await content.render(this.shadowRoot);
 
                     afterRenderFn.call(this);
                 }),

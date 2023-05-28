@@ -1,5 +1,5 @@
 import {
-    Att, Component, Watch, getArrayOfNumbers, html, bits, Event, EventEmitter, emptyBitmap
+    Att, Component, Watch, getArrayOfNumbers, bits, Event, EventEmitter, emptyBitmap, html
 } from '../global';
 import css from './component.css';
 

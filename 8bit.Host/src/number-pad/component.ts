@@ -1,4 +1,4 @@
-import { html, Component, Event, EventEmitter, Watch } from '../global';
+import { Component, Event, EventEmitter, Watch, html } from '../global';
 import css from './component.css';
 
 @Component({

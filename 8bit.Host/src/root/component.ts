@@ -1,13 +1,14 @@
-import { html, elements, Component, Watch, toDecimal, toBinaryArray, arraysEqual, ScoresService, wait } from '../global';
+import { html, Component, Watch, toDecimal, toBinaryArray, arraysEqual, ScoresService, wait } from '../global';
 import { ABitGridComponent, ABinaryGridSelect } from '../bit-grid/component';
-import { bitmaps, emptyBitmap } from '../global/data';
-import DOMPurify from 'dompurify';
+import { bitmaps } from '../global/data/bitmaps';
+import { emptyBitmap } from '../global/data/emptyBitmap';
 
 import css from './component.css';
 import { ATimerComponent } from '../timer/component';
 import { NotificationService } from '../notifications/NotificationService';
 import { ANumberPadComponent } from '../number-pad/component';
 import { IScoreCard } from '../global';
+import { HTMLLiteralCallback } from '../global/literals/HTMLLiteralCallback';
 
 @Component({
     css
@@ -24,7 +25,7 @@ export class ARootComponent extends HTMLElement implements IComponent {
                 //this.completed = true;
                 this.notifications.show({
                     title: '<h1>No more bitmaps to solve.<h1>',
-                    body: elements`<p>You&apos;re simply the best.</p><br />`,
+                    body: html`<p>You&apos;re simply the best.</p><br />`,
                     allowClose: false,
                 });
             });
@@ -95,18 +96,18 @@ export class ARootComponent extends HTMLElement implements IComponent {
         let submit: HTMLButtonElement;
 
         const validate = () => {
-            const found = Object.keys(bitmaps)
-                .find(key => arraysEqual(bitmaps[key], grid.value))
+            const foundName = Object.keys(bitmaps)
+                .find(key => arraysEqual(bitmaps[key].data, grid.value))
                 || arraysEqual(emptyBitmap, grid.value) && 'empty';
 
-            submit.disabled = !!found;
-            submit.innerText = found ? `Exists '${found}'` : 'New Submit';
+            submit.disabled = !!foundName;
+            submit.innerText = foundName ? `Exists '${foundName}'` : 'New Submit';
         };
 
         const gridRef = (el: ABitGridComponent) => {
 
             grid = el;
-            el.value = bitmaps[this.bitmapName];
+            el.value = bitmaps[this.bitmapName]?.data;
             el.addEventListener('select', (e: CustomEvent<ABinaryGridSelect>) => {
 
                 el.toggleValue(e.detail.col, e.detail.row);
@@ -146,14 +147,14 @@ export class ARootComponent extends HTMLElement implements IComponent {
                     `mailto:binary@antix.co.uk?subject=bitmap: [give it a name]&body=${body},`
                 );
             });
-        }
+        };
 
         await this.notifications.show({
-            title: elements`
+            title: html`
                 <h1>You won!</h1>
                 <p>Come back tomorrow for another go.</p>
                 `,
-            body: elements`
+            body: html`
                 <style>
                     a-bit-grid{font-size:2.2em;margin:0 auto}
                     p{display:flex}
@@ -223,7 +224,7 @@ export class ARootComponent extends HTMLElement implements IComponent {
         this.timerElement = this.shadowRoot.querySelector<ATimerComponent>('#Timer');
 
         this.targetGridElement = this.shadowRoot.querySelector<ABitGridComponent>('#TargetGrid');
-        this.targetGridElement.value = bitmaps[this.bitmapName];
+        this.targetGridElement.value = bitmaps[this.bitmapName]?.data;
 
         this.inputGridElement = this.shadowRoot.querySelector<ABitGridComponent>('#InputGrid');
         this.inputGridElement.addEventListener('select', this.handleRowClick);

@@ -1,28 +1,6 @@
 import DOMPurify from 'dompurify';
-
-/**
- * the result of an html tag function
- */
-export class HtmlResult extends Array<unknown> {
-    constructor(items: unknown[]) {
-        super(items);
-    }
-
-    render = () => {
-        const r = (value: unknown) => Array.isArray(value)
-            ? value.map(r).join('')
-            : `${value}`;
-
-        return r(this);
-    };
-}
-
-/**
- * HTML tag function
- */
-export interface IHtml {
-    (strings: TemplateStringsArray, ...values: unknown[]): HtmlResult;
-}
+import { HTMLLiteralResult } from './HTMLLiteralResult';
+import { HTMLLiteralTagFunction } from './HTMLLiteralTagFunction';
 
 /** 
  * a literal tag function for html with DOMPurify sanitization
@@ -37,10 +15,10 @@ export interface IHtml {
  * ``` 
  * result => "<ul><li>1</li><li>2</li><li>3</li><li></li></ul>"
  */
-export const html: IHtml
+export const html: HTMLLiteralTagFunction
     = (strings, ...values) => {
 
-        const result = strings.reduce((r, s, i) => {
+        const result = strings.reduce<unknown[]>((r, s, i) => {
             const value = values[i] ?? '';
 
             if (typeof value === 'string')
@@ -53,5 +31,5 @@ export const html: IHtml
                 : [...r, s, value];
         }, []);
 
-        return new HtmlResult(result);
+        return new HTMLLiteralResult(result);
     };
