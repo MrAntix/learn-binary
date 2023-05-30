@@ -1,6 +1,9 @@
+import { round } from '../utils';
 import { IScoreCard } from './IScoreCard';
 
-
+/**
+ * State of the score.
+ */
 export class ScoreState {
 
     constructor(
@@ -11,8 +14,8 @@ export class ScoreState {
         this.byName = all.reduce((index, s) => { index[s.name] = s; return index; }, {});
 
         this.count = all.length;
-        this.averageTimeSeconds = all.reduce((t, s) => t + s.timeSeconds, 0) / this.count;
-        this.averageErrors = all.reduce((t, s) => t + s.errors, 0) / this.count;
+        this.averageTimeSeconds = round(all.reduce((t, s) => t + s.timeSeconds, 0) / this.count, 2);
+        this.averageErrors = round(all.reduce((t, s) => t + s.errors, 0) / this.count, 2);
     }
 
     readonly byDateKey: { [key: string]: IScoreCard; } = {};
