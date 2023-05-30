@@ -103,7 +103,7 @@ export class ARootComponent extends HTMLElement implements IComponent {
                 || arraysEqual(emptyBitmap, grid.value) && 'empty';
 
             submit.disabled = !!foundName;
-            submit.innerText = foundName ? `Exists '${foundName}'` : 'New Submit';
+            submit.innerText = foundName ? `'${foundName}'` : 'Submit';
         };
 
         const gridRef = (el: ABitGridComponent) => {
