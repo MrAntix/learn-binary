@@ -35,7 +35,9 @@
             --primary-color: hsl(var(--primary-h) var(--primary-s) var(--primary-l));
             --primary-color-alt: hsl(var(--primary-h) var(--primary-s) var(--primary-l-alt));
 
-            --color: hsl(var(--primary-h), var(--primary-s), var(--primary-l));
+            --text-l: 33%;
+
+            --color: hsl(var(--primary-h), var(--primary-s), var(--text-l));
             --background-color: hsl(var(--primary-h), var(--primary-s), var(--primary-l-alt));
 
             --highlight-color: hsl(var(--primary-h), 25%, var(--primary-l-high));
@@ -57,6 +59,7 @@
 
             --a-bit-grid-cell-background-color: var(--lowlight-color);
             --a-timer-cell-background-color: var(--lowlight-color);
+            --notifications-border-radius: 9px;
         }
 
         @media (prefers-color-scheme: dark) {
@@ -66,6 +69,8 @@
 
                 --primary-l-high: 0%;
                 --primary-l-low: 10%;
+
+                --text-l: 85%;
 
                 --input-color: #fff;
                 --input-background-color: #222;
