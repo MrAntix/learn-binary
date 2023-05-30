@@ -2,6 +2,35 @@
     box-sizing: border-box;
 }
 
+h1 {
+    font-size: 2em;
+}
+
+h2 {
+    font-size: 1.8em;
+}
+
+h3 {
+    font-size: 1.6em;
+}
+
+h4 {
+    font-size: 1.5em;
+}
+
+h5 {
+    font-size: 1.4em;
+}
+
+h6 {
+    font-size: 1.3em;
+}
+
+p,
+button {
+    font-size: 1.2em;
+}
+
 th,
 td {
     padding: 0;
