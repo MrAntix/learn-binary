@@ -61,10 +61,13 @@ export class ARootComponent extends HTMLElement implements IComponent {
     errors: number = 0;
 
     start: () => void = () => {
-        if (this.completed) return;
+        if (this.completed
+            || this.started) return;
+
+        console.log('oi');
 
         this.started = true;
-        this.inputRow = 0;
+        if (this.inputRow === null) this.inputRow = 0;
         this.numberPadElement.disabled = false;
 
         this.timerElement.start();
@@ -199,9 +202,13 @@ export class ARootComponent extends HTMLElement implements IComponent {
             : `${toDecimal(this.inputGridElement.value[this.inputRow])}`;
 
         this.inputRowValueElement.innerText = text;
-        this.inputRowValue = '';
     }
     inputRowValue: string = '';
+    @Watch('inputRowValue') inputRowValueChanged() {
+
+        if (this.inputRowValueElement)
+            this.inputRowValueElement.ariaSelected = this.inputRowValue ? 'false' : 'true';
+    }
     inputRowValueElement: HTMLSpanElement;
     inputGridElement: ABitGridComponent;
 
@@ -237,7 +244,7 @@ export class ARootComponent extends HTMLElement implements IComponent {
         this.targetGridElement.value = bitmaps[this.bitmapName]?.data;
 
         this.inputGridElement = this.shadowRoot.querySelector<ABitGridComponent>('#InputGrid');
-        this.inputGridElement.addEventListener('select', this.handleRowClick);
+        this.inputGridElement.addEventListener('select', this.handleInputGridSelect);
 
         if (this.completedScore) {
             this.started = true;
@@ -256,10 +263,11 @@ export class ARootComponent extends HTMLElement implements IComponent {
 
     }
 
-    handleRowClick: (e: CustomEvent<ABinaryGridSelect>) => void = e => {
+    handleInputGridSelect: (e: CustomEvent<ABinaryGridSelect>) => void = e => {
         if (this.completed) return;
 
         this.inputRow = e.detail.row;
+        this.inputRowValue = '';
     };
 
     handlePress: (e: CustomEvent<string>) => void = e => {
@@ -285,15 +293,19 @@ export class ARootComponent extends HTMLElement implements IComponent {
 
             case 'ArrowUp':
                 this.inputRow = (this.inputRow + 7) % 8;
+                this.inputRowValue = '';
                 break;
 
             case 'ArrowDown':
                 this.inputRow = (this.inputRow + 1) % 8;
+                this.inputRowValue = '';
                 break;
 
             case 'Enter':
                 if (this.apply())
                     this.inputRow = (this.inputRow + 1) % 8;
+
+                this.inputRowValue = '';
                 break;
         }
     };

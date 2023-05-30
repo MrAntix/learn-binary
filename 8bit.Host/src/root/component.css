@@ -37,9 +37,15 @@ a-bit-grid {
 }
 
 #InputRowValue {
-    flex-grow: 1;
+    margin: auto;
     font-size: 4em;
     text-align: center;
+}
+
+#InputRowValue[aria-selected="true"] {
+    color: var(--background-color);
+    background-color: var(--color);
+    border-radius: var(--border-radius);
 }
 
 #InputRowValue small {
