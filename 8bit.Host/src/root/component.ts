@@ -328,7 +328,10 @@ export class ARootComponent extends HTMLElement implements IComponent {
             this.inputRow,
             error);
 
-        if (error) this.errors++;
+        if (error) {
+            this.errors++;
+            return false;
+        }
 
         if (arraysEqual(
             this.targetGridElement.value,
