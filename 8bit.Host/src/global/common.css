@@ -3,20 +3,20 @@
 }
 
 h1 {
-    font-size: 2em;
+    font-size: 1.7em;
     color: var(--primary-color);
 }
 
 h2 {
-    font-size: 1.8em;
-}
-
-h3 {
     font-size: 1.6em;
 }
 
-h4 {
+h3 {
     font-size: 1.5em;
+}
+
+h4 {
+    font-size: 1.45em;
 }
 
 h5 {
@@ -24,12 +24,12 @@ h5 {
 }
 
 h6 {
-    font-size: 1.3em;
+    font-size: 1.35em;
 }
 
 p,
 button {
-    font-size: 1.2em;
+    font-size: 1.3em;
 }
 
 th,
@@ -39,12 +39,6 @@ td {
 
 :disabled {
     filter: contrast(.5);
-}
-
-input,
-button {
-    font: inherit;
-    font-size: 1rem;
 }
 
 input {

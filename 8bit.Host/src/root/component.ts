@@ -158,9 +158,10 @@ export class ARootComponent extends HTMLElement implements IComponent {
             title: html`
                 ${this.completedScore && this.renderScore(this.completedScore)}                
                 <h3>You have completed ${this.scores.count} / ${Object.keys(bitmaps).length} bitmaps.</h3>
-                <p>Average Time:&nbsp;&nbsp;&nbsp;${this.scores.averageTimeSeconds}s</p>
-                <p>Average Errors:&nbsp;${this.scores.averageErrors}</p>
-                `,
+                ${this.scores.count > 1 && html`
+                    <p>Average Time:&nbsp;&nbsp;&nbsp;<strong>${this.scores.averageTimeSeconds}s</strong></p>
+                    <p>Average Errors:&nbsp;<strong>${this.scores.averageErrors}</strong></p>
+                `}`,
             body: html`
                 <style>
                     a-bit-grid{font-size:2.2em;margin:0 auto}
@@ -169,9 +170,7 @@ export class ARootComponent extends HTMLElement implements IComponent {
                 </style>                
                 <h4>Come back tomorrow for another go.</h4>
                 <p>In the meantime, make your own bitmap and submit for inclusion below.</p>
-                <p>
-                    <a-bit-grid show-binary ${gridRef} />
-                </p>
+                <a-bit-grid show-binary ${gridRef}></a-bit-grid>
                 <form ${formRef}>
                     <p>
                         <button ${clearRef} type="button">Clear</button>
