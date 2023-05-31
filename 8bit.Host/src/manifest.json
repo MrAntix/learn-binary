@@ -9,9 +9,15 @@
     "description": "quick game to help you learn 8bit binary. By Anthony Johnston .NET/JS Architect and Developer for hire.",
     "icons": [
         {
-            "src": "/app.icon.png",
+            "src": "/app-transparent.icon.png",
             "sizes": "512x512",
             "type": "image/png"
+        },
+        {
+            "src": "/app.icon.png",
+            "sizes": "512x512",
+            "type": "image/png",
+            "purpose": "maskable"
         }
     ]
 }
