@@ -21,7 +21,9 @@
 
     --scope-border-radius: var(--notifications-border-radius, var(--border-radius));
     --scope-padding: 0 var(--notifications-padding, 20px);
-    --scope-animation-duration: var(--notifications-animation-duration, .2s)
+    --scope-animation-duration: var(--notifications-animation-duration, .2s) --scope-overlay-color: var(--notifications-overlay-color, rgba(0, 0, 0, .5));
+
+    --scope-overlay-color: var(--notifications-overlay-color, hsla(var(--primary-h), 10%, var(--primary-l-low), .5));
 }
 
 .notification {
@@ -60,7 +62,7 @@
     inset: 0;
 
     opacity: 0;
-    background: rgba(0, 0, 0, .5);
+    background: var(--scope-overlay-color);
     transition: all var(--scope-animation-duration) ease-in-out;
 }
 
