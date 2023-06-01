@@ -5,6 +5,7 @@ export interface INotification {
     title: HTMLLiteralResult | string;
     body?: HTMLLiteralResult | string;
     footer?: HTMLLiteralResult | string;
+    style?: Partial<CSSStyleDeclaration>,
     modal?: boolean;
     allowClose?: boolean;
 }

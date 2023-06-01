@@ -44,7 +44,7 @@
     background: var(--background-color);
 
     border-radius: var(--scope-border-radius);
-    box-shadow: 0 .2em 100px rgba(0, 0, 0, .5);
+    box-shadow: 0 .2em 100px rgba(0, 0, 0);
 }
 
 .shown .content {

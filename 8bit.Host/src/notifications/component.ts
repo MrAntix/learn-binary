@@ -30,6 +30,7 @@ export class ANotificationsComponent extends HTMLElement implements IComponent {
         element.dataset.id = notification.id;
         element.classList.add('notification');
         if (notification.modal) element.classList.add('modal');
+        if (notification.style) Object.assign(element.style, notification.style);
 
         html`
             <div class="content">
