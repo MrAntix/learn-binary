@@ -81,7 +81,7 @@
         }
 
         html {
-            min-height: 100%;
+            height: 100%;
             font-size: 1.85vmin;
             transition: font-size .1s ease-in-out;
             font-family: 'Courier New', Courier, monospace;
@@ -95,6 +95,10 @@
         }
 
         body {
+            box-sizing: border-box;
+            height: 100%;
+            width: 100%;
+            margin: 0;
 
             display: grid;
             grid-template-columns: 1fr;
