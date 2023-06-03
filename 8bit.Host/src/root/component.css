@@ -1,20 +1,25 @@
+@import url(../global/common.css);
+
 :host {
     display: contents;
+    flex-direction: column;
+}
+
+#Timer {
+    padding: .5em;
+
+    margin-left: auto;
 }
 
 #Board {
     padding: .5em;
 
-    flex: 1 0 auto;
     display: flex;
     align-items: center;
     justify-content: center;
     flex-wrap: wrap;
 }
 
-#Timer {
-    margin-left: auto;
-}
 
 a-bit-grid {
     font-size: 3.11em;
@@ -36,7 +41,6 @@ a-bit-grid {
     padding: .5em;
     background-color: var(--lowlight-color);
 
-    width: 100%;
     display: flex;
     align-items: center;
 }
