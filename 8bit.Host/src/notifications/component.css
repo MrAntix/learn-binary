@@ -23,7 +23,7 @@
     --scope-padding: 0 var(--notifications-padding, 20px);
     --scope-animation-duration: var(--notifications-animation-duration, .2s) --scope-overlay-color: var(--notifications-overlay-color, rgba(0, 0, 0, .5));
 
-    --scope-overlay-color: var(--notifications-overlay-color, hsla(var(--primary-h), 10%, var(--primary-l-low), .5));
+    --scope-overlay-color: var(--notifications-overlay-color, hsla(var(--primary-h), 10%, var(--primary-l-low), .667));
 }
 
 .notification {
@@ -46,7 +46,7 @@
     background: var(--background-color);
 
     border-radius: var(--scope-border-radius);
-    box-shadow: 0 .2em 100px rgba(0, 0, 0);
+    box-shadow: var(--shadow-large);
 }
 
 .shown .content {

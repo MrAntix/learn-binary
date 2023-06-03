@@ -24,7 +24,10 @@ export class ARootComponent extends HTMLElement implements IComponent {
                 //this.completed = true;
                 this.notifications.show({
                     title: '<h1>No more bitmaps to solve.<h1>',
-                    body: html`<p>You&apos;re simply the best.</p><br />`,
+                    body: html`
+                    <h2>Well done. Here are your stats.</h2>
+                        ${this.renderAverages()}
+                    `,
                     allowClose: false,
                 });
             });
@@ -157,18 +160,17 @@ export class ARootComponent extends HTMLElement implements IComponent {
         await this.notifications.show({
             title: html`
                 ${this.completedScore && this.renderScore(this.completedScore)}                
-                <h3>You have completed ${this.scores.count} / ${Object.keys(bitmaps).length} bitmaps.</h3>
-                ${this.scores.count > 1 && html`
-                    <p>Average Time:&nbsp;&nbsp;&nbsp;<strong>${this.scores.averageTimeSeconds}s</strong></p>
-                    <p>Average Errors:&nbsp;<strong>${this.scores.averageErrors}</strong></p>
-                `}`,
+                <h2>You have completed ${this.scores.count} / ${Object.keys(bitmaps).length} bitmaps.</h2>
+                ${this.scores.count > 1 &&
+                this.renderAverages()
+                }`,
             body: html`
                 <style>
                     a-bit-grid{font-size:2.2em;position:relative;left:50%;transform:translateX(-50%)}
                     p{display:flex}
                     .submit{margin-left:auto}
                 </style>                
-                <h4>Come back tomorrow for another go.</h4>
+                <h3>Come back tomorrow for another go.</h3>
                 <p>In the meantime, make your own bitmap and submit for inclusion below.</p>
                 <a-bit-grid show-binary ${gridRef}></a-bit-grid>
                 <form ${formRef}>
@@ -189,6 +191,11 @@ export class ARootComponent extends HTMLElement implements IComponent {
         <h1>
             You took ${score.timeSeconds}s and had ${score.errors} errors
         </h1>`;
+
+    renderAverages = () => html`
+        <p>Average Time:&nbsp;&nbsp;&nbsp;<strong>${this.scores.averageTimeSeconds}s</strong></p>
+        <p>Average Errors:&nbsp;<strong>${this.scores.averageErrors}</strong></p>
+    `;
 
     targetGridElement: ABitGridComponent;
 
@@ -217,11 +224,6 @@ export class ARootComponent extends HTMLElement implements IComponent {
         return html`
             <a-timer id="Timer" bits="16"></a-timer>
 
-            <div id="Board">
-                <a-bit-grid id="TargetGrid" show-header show-binary></a-bit-grid>
-                <a-bit-grid id="InputGrid"></a-bit-grid> 
-            </div>
-
             ${!this.completedScore && html`
                 <div id="Footer">
                     <span id="InputRowValue">
@@ -233,6 +235,12 @@ export class ARootComponent extends HTMLElement implements IComponent {
                     <a-number-pad disabled id="Input"></a-number-pad>
                 </div>
             `}
+
+            <div id="Board">
+                    <a-bit-grid id="TargetGrid" show-header show-binary></a-bit-grid>
+                    <a-bit-grid id="InputGrid"></a-bit-grid> 
+            </div>
+
             <a-notifications></a-notifications>
         `;
     }
@@ -292,12 +300,12 @@ export class ARootComponent extends HTMLElement implements IComponent {
                 break;
 
             case 'ArrowUp':
-                this.inputRow = (this.inputRow + 7) % 8;
+                this.inputRow = this.inputRow === null ? 0 : (this.inputRow + 7) % 8;
                 this.inputRowValue = '';
                 break;
 
             case 'ArrowDown':
-                this.inputRow = (this.inputRow + 1) % 8;
+                this.inputRow = this.inputRow === null ? 0 : (this.inputRow + 1) % 8;
                 this.inputRowValue = '';
                 break;
 

@@ -6,28 +6,28 @@
 }
 
 #Timer {
-    padding: .5em;
+    font-size: 1.333em;
+    display: flex;
+    justify-items: flex-end;
 
-    margin-left: auto;
+    padding: var(--padding-unit);
 }
 
 #Board {
-    padding: .5em;
-
     display: flex;
     align-items: center;
     justify-content: center;
     flex-wrap: wrap;
 }
 
-
 a-bit-grid {
-    font-size: 3.11em;
-    padding: .2em;
+    font-size: 2.97em;
+
+    margin: var(--padding-unit);
 }
 
 #TargetGrid {
-    font-size: 2.2em;
+    font-size: 2.115em;
     opacity: .9;
 }
 
@@ -38,16 +38,18 @@ a-bit-grid {
 }
 
 #Footer {
-    padding: .5em;
+    padding: var(--padding-unit);
     background-color: var(--lowlight-color);
 
     display: flex;
     align-items: center;
+    order: 2;
 }
 
 #InputRowValue {
     margin: auto;
     font-size: 4em;
+    line-height: .5;
     text-align: center;
 }
 
