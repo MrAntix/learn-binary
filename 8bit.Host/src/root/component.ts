@@ -164,7 +164,7 @@ export class ARootComponent extends HTMLElement implements IComponent {
                 `}`,
             body: html`
                 <style>
-                    a-bit-grid{font-size:2.2em;margin:0 auto}
+                    a-bit-grid{font-size:2.2em;position:relative;left:50%;transform:translateX(-50%)}
                     p{display:flex}
                     .submit{margin-left:auto}
                 </style>                
