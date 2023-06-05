@@ -91,12 +91,18 @@
         }
 
         html {
-            font-size: 1.85vmin;
-            transition: font-size .1s ease-in-out;
+            font-size: 2.25vmin;
             font-family: 'Courier New', Courier, monospace;
         }
 
-        @media (orientation: portrait) {
+        @media (max-aspect-ratio: 11 / 10) {
+
+            html {
+                font-size: 1.75vmax;
+            }
+        }
+
+        @media (max-aspect-ratio: 9 / 10) {
 
             html {
                 font-size: 1.5vmax;
