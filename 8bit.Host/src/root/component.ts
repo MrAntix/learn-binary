@@ -181,7 +181,7 @@ export class ARootComponent extends HTMLElement implements IComponent {
                 </form>
                 <br />
                 `,
-            style: { maxWidth: '35em' },
+            style: { width: '40em' },
             modal: true,
             allowClose: false
         });

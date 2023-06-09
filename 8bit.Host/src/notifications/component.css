@@ -34,11 +34,17 @@
     grid-column: 1;
     grid-row: 1;
 
-    max-width: 90%;
-    max-height: 90%;
+    max-width: 95vw;
+    max-height: 95vh;
+
+    display: flex;
+    overflow: hidden;
 }
 
 .content {
+    display: flex;
+    flex-direction: column;
+
     opacity: 0;
     transform: translateY(-10px);
     transition: all var(--scope-animation-duration) ease-in-out;
@@ -83,6 +89,10 @@
 .close {
     cursor: pointer;
     padding-left: var(--scope-padding);
+}
+
+.body {
+    overflow: hidden auto;
 }
 
 .footer {
