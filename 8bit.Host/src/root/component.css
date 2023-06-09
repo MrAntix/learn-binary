@@ -67,3 +67,7 @@ a-bit-grid {
     font-size: 2em;
     flex: 0 0 auto
 }
+
+a-notifications {
+    font-size: .88em;
+}
