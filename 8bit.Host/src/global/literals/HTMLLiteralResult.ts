@@ -27,7 +27,7 @@ export class HTMLLiteralResult extends Array<unknown> {
                     [...documentFragment.querySelectorAll(`[${REF_ATTR}]`)]
                         .map(async el => {
 
-                            const key = el.getAttribute(REF_ATTR);
+                            const key = el.getAttribute(REF_ATTR)!;
                             el.removeAttribute(REF_ATTR);
 
                             while (!el.isConnected)
@@ -58,11 +58,12 @@ export class HTMLLiteralResult extends Array<unknown> {
             return key;
         };
 
-        const walk = (value: unknown) => Array.isArray(value)
-            ? value.map(walk).join('')
-            : typeof (value) === 'function'
-                ? `${REF_ATTR}=${getRefValue(value)}`
-                : `${value}`;
+        const walk: (value: unknown) => string
+            = value => Array.isArray(value)
+                ? value.map(walk).join('')
+                : typeof (value) === 'function'
+                    ? `${REF_ATTR}=${getRefValue(value)}`
+                    : `${value}`;
 
         const resultHTML = walk(this);
         if (!resultHTML) {
