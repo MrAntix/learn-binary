@@ -8,4 +8,7 @@ export interface INotification {
     style?: Partial<CSSStyleDeclaration>,
     modal?: boolean;
     allowClose?: boolean;
+    share?: {
+        text?: string;
+    }
 }

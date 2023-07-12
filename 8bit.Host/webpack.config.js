@@ -4,11 +4,16 @@ const TerserPlugin = require('terser-webpack-plugin');
 const CopyPlugin = require("copy-webpack-plugin");
 
 module.exports = {
-    entry: './src/index.ts',
+    entry: {
+        src: { import: './src/index.ts', dependOn: ['sanitize', 'rasterize'] },
+        sanitize: ['dompurify'],
+        rasterize: ['html-to-image'],
+    },
     output: {
-        filename: 'app.js',
+        filename: '[name].js',
         path: path.resolve(__dirname, 'wwwroot'),
-        clean: true
+        clean: true,
+        chunkFilename: '[id].[chunkhash].js'
     },
     module: {
         rules: [
@@ -31,8 +36,7 @@ module.exports = {
         }
     },
     optimization: {
-        minimize: true,
-        minimizer: [new TerserPlugin()],
+        runtimeChunk: { name: 'app' }
     },
     plugins: [
         new CopyPlugin({
@@ -44,5 +48,8 @@ module.exports = {
                 { context: 'src', from: "**/*.png" },
             ],
         }),
+        // new HtmlWebpackPlugin({
+        //     template: 'src/index.html'
+        // })
     ]
 };

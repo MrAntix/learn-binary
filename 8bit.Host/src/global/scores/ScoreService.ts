@@ -17,7 +17,7 @@ export class ScoresService {
         )
             .map((key: string) => parse(localStorage.getItem(key), ScoreCardSchema))
             .filter((s: IScoreCard) => s != null)
-        )
+        );
     }
 
     private _state: ScoreState;

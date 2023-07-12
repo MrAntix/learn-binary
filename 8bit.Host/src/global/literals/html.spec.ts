@@ -7,7 +7,7 @@ describe('Elements', () => {
     beforeEach(() => {
         root = document.createElement('div');
         document.body.appendChild(root);
-    })
+    });
 
     it('should callback with element', async () => {
 

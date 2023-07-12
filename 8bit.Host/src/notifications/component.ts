@@ -1,5 +1,6 @@
 import { HIDE_NOTIFICATION_EVENT, SHOW_NOTIFICATION_EVENT } from '../events';
 import { Component, html, wait } from '../global';
+import { share } from '../global/share';
 import { INotification } from './INotification';
 
 import css from './component.css';
@@ -32,12 +33,15 @@ export class ANotificationsComponent extends HTMLElement implements IComponent {
         if (notification.modal) element.classList.add('modal');
         if (notification.style) Object.assign(element.style, notification.style);
 
+        const showShare = !!notification.share && !!navigator.share;
+
         html`
             <div class="content">
                 ${(notification.title || notification.allowClose) && html`
                     <section class="header">
                         <div class="title">${notification.title}</div>
                         ${notification.allowClose && html`<div class="close">&times;</div>`}
+                        ${showShare && html`<button class="share not-shared"><a-icon type="share" /></button>`}
                     </section>
                 `}
                 ${notification.body && html`
@@ -51,15 +55,25 @@ export class ANotificationsComponent extends HTMLElement implements IComponent {
                     </section>
                 `}
             </div>
-        `.render(element);
+        `.render(element)
+            .then(() => {
+
+                const closeElement = element.querySelector('.close');
+                if (closeElement)
+                    closeElement.addEventListener('click', () => this.hideNotification(notification.id));
+
+                const shareElement = element.querySelector('.share');
+                if (shareElement)
+                    shareElement.addEventListener('click',
+                        () => share(notification.share.text, element.children[0] as HTMLElement)
+                    );
+
+                wait(50).then(() => element.classList.add('shown'));
+
+            });
 
         this.shadowRoot.appendChild(element);
 
-        const closeElement = element.querySelector('.close');
-        if (closeElement)
-            closeElement.addEventListener('click', () => this.hideNotification(notification.id));
-
-        wait(50).then(() => element.classList.add('shown'));
     }
 
     hideNotification(id: string) {

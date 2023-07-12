@@ -160,20 +160,20 @@ export class ARootComponent extends HTMLElement implements IComponent {
         await this.notifications.show({
             title: html`
                 ${this.completedScore && this.renderScore(this.completedScore)}                
-                <h2>You have completed ${this.scores.count} / ${Object.keys(bitmaps).length} bitmaps.</h2>
+                <h2>You completed ${this.scores.count} / ${Object.keys(bitmaps).length} bitmaps.</h2>
                 ${this.scores.count > 1 &&
                 this.renderAverages()
                 }`,
             body: html`
                 <style>
-                    a-bit-grid{font-size:2.2em;position:relative;left:50%;transform:translateX(-50%)}
+                    a-bit-grid{padding:var(--padding-unit) 0;font-size:2.2em;position:relative;left:50%;transform:translateX(-50%)}
                     p{display:flex}
                     .submit{margin-left:auto}
                 </style>                
-                <h3>Come back tomorrow for another go.</h3>
-                <p>In the meantime, make your own bitmap and submit for inclusion below.</p>
+                <h3 class="not-shared">Come back tomorrow for another go.</h3>
+                <p class="not-shared">In the meantime, make your own bitmap and submit for inclusion below.</p>
                 <a-bit-grid show-binary ${gridRef}></a-bit-grid>
-                <form ${formRef}>
+                <form ${formRef} class="not-shared">
                     <p>
                         <button ${clearRef} type="button">Clear</button>
                         <button ${submitRef} class="submit" type="submit" disabled>Submit</button>
@@ -181,9 +181,10 @@ export class ARootComponent extends HTMLElement implements IComponent {
                 </form>
                 <br />
                 `,
-            style: { width: '40em' },
+            style: { width: '36em' },
             modal: true,
-            allowClose: false
+            allowClose: false,
+            share: { text: '8bit Scores' }
         });
     };
 
@@ -193,9 +194,13 @@ export class ARootComponent extends HTMLElement implements IComponent {
         </h1>`;
 
     renderAverages = () => html`
-        <p>Average Time:&nbsp;&nbsp;&nbsp;<strong>${this.scores.averageTimeSeconds}s</strong></p>
-        <p>Average Errors:&nbsp;<strong>${this.scores.averageErrors}</strong></p>
-    `;
+        <style>
+            .scores p {display: grid;grid-template-columns: 10em min-content 1fr;}
+        </style>
+        <div class="scores">
+            <p>Average Time   <strong>${this.scores.averageTimeSeconds}</strong>s</p>
+            <p>Average Errors <strong>${this.scores.averageErrors}</strong></p>
+        </div>`;
 
     targetGridElement: ABitGridComponent;
 

@@ -109,3 +109,7 @@ section+section {
 
     padding-top: var(--scope-padding);
 }
+
+.sharing .not-shared {
+    display: none;
+}

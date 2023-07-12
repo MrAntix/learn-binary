@@ -51,6 +51,7 @@ export function Component(
 
             this.__render = window.setTimeout(() => beforeRenderPromise.call(this)
                 .then(async () => {
+                    if (this.shadowRoot == null) return;
 
                     this.shadowRoot.innerHTML = style;
                     const content = renderFn && renderFn.call(this);

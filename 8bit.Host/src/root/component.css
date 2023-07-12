@@ -71,3 +71,9 @@ a-bit-grid {
 a-notifications {
     font-size: .88em;
 }
+
+.scores p {
+
+    display: grid;
+    grid-template-columns: 10em 1fr;
+}
