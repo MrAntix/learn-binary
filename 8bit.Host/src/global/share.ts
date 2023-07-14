@@ -8,37 +8,42 @@ export const share: (
 
         element.classList.add('sharing');
 
-        toBlob(element, {
-            backgroundColor: 'var(--background-color)',
-            type: 'image/png'
-        })
-            .then(blob => {
+        try {
 
-                const filesArray = [
-                    new File(
-                        [blob],
-                        'image.png',
-                        {
-                            type: 'image/png',
-                            lastModified: new Date().getTime()
-                        }
-                    )
-                ];
-                const shareData = {
-                    files: filesArray,
-                    text,
-                    url: 'https://8bit.antix.co.uk'
-                };
-                navigator.share(shareData);
+            await toBlob(element);
+            await toBlob(element);
+            await toBlob(element);
 
-            })
-            .catch((error) => {
-
-                console.error('oops, something went wrong!', error);
-            })
-            .finally(() => {
-
-                element.classList.remove('sharing');
-
+            const blob = await toBlob(element, {
+                backgroundColor: 'var(--background-color)',
+                type: 'image/png'
             });
+
+            const filesArray = [
+                new File(
+                    [blob],
+                    'image.png',
+                    {
+                        type: 'image/png',
+                        lastModified: new Date().getTime()
+                    }
+                )
+            ];
+
+            const shareData = {
+                files: filesArray,
+                text,
+                url: 'https://8bit.antix.co.uk'
+            };
+
+            navigator.share(shareData);
+
+        } catch (error) {
+
+            console.error('oops, something went wrong!', error);
+
+        } finally {
+
+            element.classList.remove('sharing');
+        }
     };
