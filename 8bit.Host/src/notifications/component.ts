@@ -65,7 +65,7 @@ export class ANotificationsComponent extends HTMLElement implements IComponent {
                 const shareElement = element.querySelector('.share');
                 if (shareElement)
                     shareElement.addEventListener('click',
-                        () => share(notification.share.text, element.children[0] as HTMLElement)
+                        () => share(notification.share.text, element)
                     );
 
                 wait(50).then(() => element.classList.add('shown'));

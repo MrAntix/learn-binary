@@ -1,13 +1,12 @@
 'use strict';
 const path = require('path');
-const TerserPlugin = require('terser-webpack-plugin');
 const CopyPlugin = require("copy-webpack-plugin");
 
 module.exports = {
     entry: {
         src: { import: './src/index.ts', dependOn: ['sanitize', 'rasterize'] },
         sanitize: ['dompurify'],
-        rasterize: ['html-to-image'],
+        rasterize: ['dom-to-image'],
     },
     output: {
         filename: '[name].js',
@@ -47,9 +46,6 @@ module.exports = {
                 { context: 'src', from: "**/*.html" },
                 { context: 'src', from: "**/*.png" },
             ],
-        }),
-        // new HtmlWebpackPlugin({
-        //     template: 'src/index.html'
-        // })
+        })
     ]
 };

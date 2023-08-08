@@ -8,3 +8,4 @@ export * from './round';
 export * from './toBinaryArray';
 export * from './toDecimal';
 export * from './wait';
+export * from './element-to-image';

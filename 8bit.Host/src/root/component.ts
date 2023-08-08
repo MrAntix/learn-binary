@@ -67,8 +67,6 @@ export class ARootComponent extends HTMLElement implements IComponent {
         if (this.completed
             || this.started) return;
 
-        console.log('oi');
-
         this.started = true;
         if (this.inputRow === null) this.inputRow = 0;
         this.numberPadElement.disabled = false;

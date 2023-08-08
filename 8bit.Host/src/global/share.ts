@@ -1,23 +1,18 @@
-import { toBlob } from 'html-to-image';
+import { elementToPngBlob } from './utils';
 
 export const share: (
     text: string,
     element: HTMLElement
 ) => Promise<void>
     = async (text, element) => {
-
-        element.classList.add('sharing');
+        if (!(element instanceof HTMLElement))
+            throw new Error('element must be an HTMLElement');
 
         try {
 
-            await toBlob(element);
-            await toBlob(element);
-            await toBlob(element);
-
-            const blob = await toBlob(element, {
-                backgroundColor: 'var(--background-color)',
-                type: 'image/png'
-            });
+            const blob = await elementToPngBlob(
+                element
+            );
 
             const filesArray = [
                 new File(
@@ -41,9 +36,5 @@ export const share: (
         } catch (error) {
 
             console.error('oops, something went wrong!', error);
-
-        } finally {
-
-            element.classList.remove('sharing');
         }
     };
