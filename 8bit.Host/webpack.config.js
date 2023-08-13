@@ -4,9 +4,8 @@ const CopyPlugin = require("copy-webpack-plugin");
 
 module.exports = {
     entry: {
-        src: { import: './src/index.ts', dependOn: ['sanitize', 'rasterize'] },
-        sanitize: ['dompurify'],
-        rasterize: ['dom-to-image'],
+        main: { import: './src/index.ts', dependOn: ['sanitize'] },
+        sanitize: ['dompurify']
     },
     output: {
         filename: '[name].js',

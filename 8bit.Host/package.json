@@ -39,8 +39,6 @@
     "webpack-dev-server": "^4.15.0"
   },
   "dependencies": {
-    "dom-to-image": "^2.6.0",
-    "dompurify": "^3.0.3",
-    "html2canvas": "^1.4.1"
+    "dompurify": "^3.0.3"
   }
 }
