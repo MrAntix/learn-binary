@@ -19,11 +19,13 @@ const RUNTIME = 'runtime';
 
 // A list of local resources we always want to be cached.
 const PRECACHE_URLS = [
-    'index.html',
-    './', // Alias for index.html
+    'app-transparent.icon.png',
     'app.icon.png',
     'app.js',
-    'src.js',
+    'index.html',
+    './', // Alias for index.html
+    'main.js',
+    'manifest.js',
     'sanitize.js'
 ];
 
