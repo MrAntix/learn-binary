@@ -51,11 +51,23 @@ const deepClone = (source: HTMLElement): HTMLElement => {
         Array
             .from(computedStyle)
             .forEach(key => {
-                targetNode.style
-                    .setProperty(key,
-                        computedStyle.getPropertyValue(key),
-                        computedStyle.getPropertyPriority(key)
-                    );
+                switch (key.split('-')[0]) {
+                    default:
+                        return;
+                    case 'color': case 'background':
+                    case 'display': case 'flex': case 'justify': case 'align': case 'grid':
+                    case 'font': case 'text': case 'overflow': case 'line':
+                    case 'padding': case 'margin': case 'border':
+                    case 'position':
+                    case 'top': case 'right': case 'bottom': case 'left':
+                    case 'width': case 'height':
+                        targetNode.style
+                            .setProperty(key,
+                                computedStyle.getPropertyValue(key),
+                                computedStyle.getPropertyPriority(key)
+                            );
+                        break;
+                }
             });
     };
 
