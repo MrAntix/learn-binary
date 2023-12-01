@@ -25,7 +25,7 @@ const PRECACHE_URLS = [
     'index.html',
     './', // Alias for index.html
     'main.js',
-    'manifest.js',
+    'manifest.json',
     'sanitize.js'
 ];
 
@@ -33,7 +33,15 @@ const PRECACHE_URLS = [
 self.addEventListener('install', event => {
     event.waitUntil(
         caches.open(PRECACHE)
-            .then(cache => cache.addAll(PRECACHE_URLS))
+            .then(cache => {
+                return Promise.all(
+                    PRECACHE_URLS.map(asset => {
+                        return cache.add(asset).catch(error => {
+                            console.error(`Caching failed for ${asset}:`, error);
+                        });
+                    })
+                );
+            })
             .then(self.skipWaiting())
     );
 });
