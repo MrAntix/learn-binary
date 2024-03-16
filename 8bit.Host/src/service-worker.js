@@ -12,6 +12,7 @@ const PRECACHE_URLS = [
 ];
 
 self.addEventListener('install', e => {
+    console.debug('install service worker')
     e.waitUntil(
         caches.open(VERSION)
             .then(cache => {
@@ -28,6 +29,7 @@ self.addEventListener('install', e => {
 });
 
 self.addEventListener('activate', e => {
+    console.debug('activate service worker')
     const currentCaches = [VERSION];
 
     e.waitUntil(
@@ -35,6 +37,8 @@ self.addEventListener('activate', e => {
             return names.filter(name => !currentCaches.includes(name));
 
         }).then(cachesToDelete => {
+            console.debug('clear caches', cachesToDelete)
+
             return Promise.all(cachesToDelete.map(cacheToDelete => {
                 return caches.delete(cacheToDelete);
             }));
@@ -57,7 +61,7 @@ async function getCacheFirst(request) {
 
     if (response == null) {
         const cache = await caches.open(VERSION);
-        const response = await fetch(request);
+        response = await fetch(request);
         await cache.put(request, response.clone());
     }
 
