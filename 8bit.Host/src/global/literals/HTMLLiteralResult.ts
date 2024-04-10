@@ -16,7 +16,7 @@ export class HTMLLiteralResult extends Array<unknown> {
         const REF_ATTR = '_r_';
         const callbacks: { [key: string]: HTMLLiteralCallback; } = {};
 
-        const mo = new MutationObserver(async m => {
+        const mo = new MutationObserver(m => {
 
             m
                 .filter(r => r.target.nodeType === 11)
