@@ -20,12 +20,12 @@ export class HTMLLiteralResult extends Array<unknown> {
 
             m
                 .filter(r => r.target.nodeType === 11)
-                .map(async r => {
+                .forEach(async r => {
 
                     const documentFragment = r.target as DocumentFragment;
 
                     [...documentFragment.querySelectorAll(`[${REF_ATTR}]`)]
-                        .map(async el => {
+                        .forEach(async el => {
 
                             const key = el.getAttribute(REF_ATTR);
                             el.removeAttribute(REF_ATTR);

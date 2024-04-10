@@ -60,12 +60,14 @@ export class ANotificationsComponent extends HTMLElement implements IComponent {
 
                 const closeElement = element.querySelector('.close');
                 if (closeElement)
-                    closeElement.addEventListener('click', () => this.hideNotification(notification.id));
+                    closeElement.addEventListener('click',
+                        () => { this.hideNotification(notification.id); }
+                    );
 
                 const shareElement = element.querySelector('.share');
                 if (shareElement)
                     shareElement.addEventListener('click',
-                        () => share(notification.share.text, element)
+                        () => { share(notification.share.text, element); }
                     );
 
                 wait(50).then(() => element.classList.add('shown'));
@@ -82,6 +84,6 @@ export class ANotificationsComponent extends HTMLElement implements IComponent {
         if (!element) return;
 
         element.classList.remove('shown');
-        element.addEventListener('transitionend', () => element.remove(), { once: true });
+        element.addEventListener('transitionend', () => { element.remove(); }, { once: true });
     }
 }
