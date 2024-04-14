@@ -97,7 +97,7 @@ export class ARootComponent extends HTMLElement implements IComponent {
         this.showComplete();
     };
 
-    showComplete = async () => {
+    showComplete = () => {
 
         let grid: ABitGridComponent;
         let submit: HTMLButtonElement;
@@ -125,7 +125,7 @@ export class ARootComponent extends HTMLElement implements IComponent {
 
         const clearRef = (el: HTMLButtonElement) => {
 
-            el.addEventListener('click', async () => {
+            el.addEventListener('click', () => {
                 grid.value = emptyBitmap;
                 validate();
             });
@@ -139,7 +139,7 @@ export class ARootComponent extends HTMLElement implements IComponent {
 
         const formRef = (el: HTMLFormElement) => {
 
-            el.addEventListener('submit', async (e: Event) => {
+            el.addEventListener('submit', (e: Event) => {
 
                 e.preventDefault();
 
@@ -157,7 +157,7 @@ export class ARootComponent extends HTMLElement implements IComponent {
             });
         };
 
-        await this.notifications.show({
+        this.notifications.show({
             title: html`
                 ${this.completedScore && this.renderScore(this.completedScore)}                
                 <h2>You completed ${this.scores.count} / ${Object.keys(bitmaps).length} bitmaps.</h2>

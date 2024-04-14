@@ -18,25 +18,30 @@ export class HTMLLiteralResult extends Array<unknown> {
 
         const mo = new MutationObserver(m => {
 
-            m
+            void m
                 .filter(r => r.target.nodeType === 11)
-                .forEach(async r => {
+                .flatMap(r => {
 
                     const documentFragment = r.target as DocumentFragment;
 
-                    [...documentFragment.querySelectorAll(`[${REF_ATTR}]`)]
-                        .forEach(async el => {
+                    return [...documentFragment.querySelectorAll(`[${REF_ATTR}]`)]
+                        .map(async el => {
 
                             const key = el.getAttribute(REF_ATTR)!;
                             el.removeAttribute(REF_ATTR);
 
-                            while (!el.isConnected)
-                                await animationFrame();
+                            try {
+                                const callback = callbacks[key];
+                                callback.element = el;
 
-                            const callback = callbacks[key];
-                            callback.element = el;
+                                while (!el.isConnected)
+                                    await animationFrame();
 
-                            callback(el);
+                                callback(el);
+                            } catch (err) {
+
+                                console.error(err);
+                            }
                         });
                 });
 
