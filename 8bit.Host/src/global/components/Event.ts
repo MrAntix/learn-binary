@@ -8,7 +8,7 @@
  *
  * @example
  * ```typescript
- * ＠Event() MyChange: EventEmitter<number>;
+ * ＠Event() myChange!: EventEmitter<number>;
  * ```
  */
 export function Event(
@@ -26,16 +26,22 @@ export function Event(
             ...options
         };
 
-        target[propertyKey] = function (detail: unknown) {
+        Object.defineProperty(target, propertyKey, {
+            get: function () {
+                return function (this: HTMLElement, detail: unknown) {
 
-            const e = new CustomEvent(o.type, {
-                detail,
-                bubbles: o.bubbles,
-                cancelable: o.cancelable,
-                composed: o.composed,
-            });
+                    const e = new CustomEvent(o.type, {
+                        detail,
+                        bubbles: o.bubbles,
+                        cancelable: o.cancelable,
+                        composed: o.composed,
+                    });
 
-            return this.dispatchEvent(e);
-        };
+                    return this.dispatchEvent(e);
+                };
+            },
+            set: function () { },
+            configurable: false
+        });
     };
 }

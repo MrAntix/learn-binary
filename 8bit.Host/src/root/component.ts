@@ -8,6 +8,7 @@ import { ATimerComponent } from '../timer/component';
 import { NotificationService } from '../notifications/NotificationService';
 import { ANumberPadComponent } from '../number-pad/component';
 import { IScoreCard } from '../global';
+import { BitmapTypes } from '../global/data/BitmapTypes';
 
 @Component({
     css
@@ -49,15 +50,15 @@ export class ARootComponent extends HTMLElement implements IComponent {
         this.render();
     }
 
-    bitmapName: string;
+    bitmapName: BitmapTypes = undefined!;
 
     scores = new ScoresService();
     notifications = new NotificationService();
 
-    timerElement: ATimerComponent;
-    numberPadElement: ANumberPadComponent;
+    timerElement: ATimerComponent = undefined!;
+    numberPadElement: ANumberPadComponent = undefined!;
 
-    completedScore: IScoreCard;
+    completedScore: IScoreCard | null = null;
 
     started: boolean = false;
     completed: boolean = false;
@@ -114,9 +115,10 @@ export class ARootComponent extends HTMLElement implements IComponent {
 
             grid = el;
             el.value = bitmaps[this.bitmapName]?.data;
-            el.addEventListener('select', (e: CustomEvent<ABinaryGridSelect>) => {
+            el.addEventListener('select', (e: Event) => {
+                const ce = e as CustomEvent<ABinaryGridSelect>;
 
-                el.toggleValue(e.detail.col, e.detail.row);
+                el.toggleValue(ce.detail.col, ce.detail.row);
                 validate();
             });
         };
@@ -200,7 +202,7 @@ export class ARootComponent extends HTMLElement implements IComponent {
             <p>Average Errors <strong>${this.scores.averageErrors}</strong></p>
         </div>`;
 
-    targetGridElement: ABitGridComponent;
+    targetGridElement: ABitGridComponent = undefined!;
 
     inputRow: number | null = null;
     @Watch('inputRow') inputRowChanged() {
@@ -219,8 +221,8 @@ export class ARootComponent extends HTMLElement implements IComponent {
         if (this.inputRowValueElement)
             this.inputRowValueElement.ariaSelected = this.inputRowValue ? 'false' : 'true';
     }
-    inputRowValueElement: HTMLSpanElement;
-    inputGridElement: ABitGridComponent;
+    inputRowValueElement: HTMLSpanElement = undefined!;
+    inputGridElement: ABitGridComponent = undefined!;
 
     render() {
 
@@ -249,13 +251,15 @@ export class ARootComponent extends HTMLElement implements IComponent {
     }
 
     afterRender() {
-        this.timerElement = this.shadowRoot.querySelector<ATimerComponent>('#Timer');
+        const shadowRoot = this.shadowRoot!;
 
-        this.targetGridElement = this.shadowRoot.querySelector<ABitGridComponent>('#TargetGrid');
+        this.timerElement = shadowRoot.querySelector<ATimerComponent>('#Timer')!;
+
+        this.targetGridElement = shadowRoot.querySelector<ABitGridComponent>('#TargetGrid')!;
         this.targetGridElement.value = bitmaps[this.bitmapName]?.data;
 
-        this.inputGridElement = this.shadowRoot.querySelector<ABitGridComponent>('#InputGrid');
-        this.inputGridElement.addEventListener('select', this.handleInputGridSelect);
+        this.inputGridElement = shadowRoot.querySelector<ABitGridComponent>('#InputGrid')!;
+        this.inputGridElement.addEventListener('select', e => this.handleInputGridSelect(e as CustomEvent<ABinaryGridSelect>));
 
         if (this.completedScore) {
             this.started = true;
@@ -266,10 +270,10 @@ export class ARootComponent extends HTMLElement implements IComponent {
             this.showComplete();
 
         } else {
-            this.inputRowValueElement = this.shadowRoot.querySelector<HTMLSpanElement>('#InputRowValue');
+            this.inputRowValueElement = shadowRoot.querySelector<HTMLSpanElement>('#InputRowValue')!;
 
-            this.numberPadElement = this.shadowRoot.querySelector('a-number-pad');
-            this.numberPadElement.addEventListener('press', this.handlePress);
+            this.numberPadElement = shadowRoot.querySelector('a-number-pad')!;
+            this.numberPadElement.addEventListener('press', e => this.handlePress(e as CustomEvent<string>));
         }
 
     }
@@ -314,7 +318,7 @@ export class ARootComponent extends HTMLElement implements IComponent {
 
             case 'Enter':
                 if (this.apply())
-                    this.inputRow = (this.inputRow + 1) % 8;
+                    this.inputRow = (this.inputRow! + 1) % 8;
 
                 this.inputRowValue = '';
                 break;
@@ -332,6 +336,7 @@ export class ARootComponent extends HTMLElement implements IComponent {
     };
 
     apply: () => boolean = () => {
+        if (this.inputRow == null) return false;
         if (this.inputRowValue === '') return true;
 
         const decimal = parseInt(this.inputRowValue);

@@ -1,4 +1,6 @@
 import { logger } from '../../logger';
+import { isPromise } from '../utils';
+import { isComponentRender } from './isComponentRender';
 
 /**
  * Component decorator
@@ -16,7 +18,7 @@ export function Component(
     const noOp = () => { /* no operation */ };
 
     return function (
-        constructor: IComponent & { prototype: IComponent; }
+        constructor: { prototype: IComponent; }
     ) {
         const o = {
             tag: null,
@@ -33,35 +35,37 @@ export function Component(
                 mode: 'open',
                 slotAssignment: 'named'
             });
-            this.shadowRoot.innerHTML = style;
+            this.shadowRoot!.innerHTML = style;
 
             connectedFn.call(this);
         };
 
         const beforeRenderFn = constructor.prototype.beforeRender ?? noOp;
-        const beforeRenderPromise = async function () { await beforeRenderFn.call(this); };
         const renderFn = constructor.prototype.render ?? noOp;
         const afterRenderFn = constructor.prototype.afterRender ?? noOp;
         const style = o.css == null ? '' : `<style>${o.css}</style>`;
-        constructor.prototype.render = function () {
+        constructor.prototype.render = function (this: Element & { __renderId: number }) {
 
-            if (this.__render)
-                window.clearTimeout(this.__render);
+            if (this.__renderId)
+                window.clearTimeout(this.__renderId);
             logger.debug('render', this);
 
-            this.__render = window.setTimeout(() => beforeRenderPromise.call(this)
-                .then(async () => {
-                    if (this.shadowRoot == null) return;
+            this.__renderId = window.setTimeout(async () => {
 
-                    this.shadowRoot.innerHTML = style;
-                    const content = renderFn && renderFn.call(this);
-                    if (content && 'render' in content)
-                        await content.render(this.shadowRoot);
+                const beforeRenderRet = beforeRenderFn.call(this);
+                if (isPromise(beforeRenderRet))
+                    await beforeRenderRet;
 
-                    afterRenderFn.call(this);
-                }),
-                10
-            );
+                if (this.shadowRoot == null) return;
+
+                this.shadowRoot.innerHTML = style;
+
+                const content = renderFn.call(this);
+                if (isComponentRender(content))
+                    await content.render(this.shadowRoot);
+
+                afterRenderFn.call(this);
+            }, 10);
         };
     };
 }

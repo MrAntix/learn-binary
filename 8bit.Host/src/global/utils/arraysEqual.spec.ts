@@ -31,9 +31,9 @@ describe('arraysEqual', () => {
 
     test('should return false for different types other than numbers and strings', () => {
         // do not allow for other types to be equivalent
-        expect(arraysEqual([], null)).toBe(false);
-        expect(arraysEqual([], undefined)).toBe(false);
-        expect(arraysEqual(null, undefined)).toBe(false);
+        expect(arraysEqual([], null!)).toBe(false);
+        expect(arraysEqual([], undefined!)).toBe(false);
+        expect(arraysEqual(null!, undefined!)).toBe(false);
         expect(arraysEqual([true], [1])).toBe(false);
         expect(arraysEqual([false], [0])).toBe(false);
         expect(arraysEqual([{ a: 1 }], ['{"a":1}'])).toBe(false);

@@ -28,8 +28,8 @@ export function Watch<T>(
         const property = Object.getOwnPropertyDescriptor(target, name);
         logger.debug('Watch.init', name, property);
 
-        const get = property?.get ?? function () { return this[fieldKey]; };
-        const set = property?.set ?? function (value: T) { this[fieldKey] = value; };
+        const get = property?.get ?? function (this: Record<string, unknown>) { return this[fieldKey]; };
+        const set = property?.set ?? function (this: Record<string, unknown>, value: T) { this[fieldKey] = value; };
 
         Object.defineProperty(target, name, {
             get,

@@ -6,7 +6,7 @@ describe('Att decorator', () => {
 
     describe('should handle string values correctly', () => {
         class Component extends HTMLElement {
-            @Att() value: string;
+            @Att() value: string = undefined!;
         }
         customElements.define('string-component', Component);
 
@@ -49,7 +49,7 @@ describe('Att decorator', () => {
 
     describe('should handle boolean values correctly', () => {
         class Component extends HTMLElement {
-            @Att() flag: boolean;
+            @Att() flag: boolean = undefined!;
         }
         customElements.define('boolean-component', Component);
 
@@ -101,7 +101,7 @@ describe('Att decorator', () => {
 
         const UPDATE_VALUE = 'UPDATE_VALUE';
         class Component extends HTMLElement {
-            @Att({ access: 'read-only' }) value: string;
+            @Att({ access: 'read-only' }) value: string = undefined!;
         }
         customElements.define('read-only-component', Component);
 

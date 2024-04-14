@@ -22,8 +22,8 @@ export class ANotificationsComponent extends HTMLElement implements IComponent {
         window.removeEventListener(HIDE_NOTIFICATION_EVENT, this.onHideNotification);
     }
 
-    onShowNotification = (e: CustomEvent<INotification>) => { this.showNotification(e.detail); };
-    onHideNotification = (e: CustomEvent<string>) => { this.hideNotification(e.detail); };
+    onShowNotification = (e: Event) => { this.showNotification((e as CustomEvent<INotification>).detail); };
+    onHideNotification = (e: Event) => { this.hideNotification((e as CustomEvent<string>).detail); };
 
     notifications: { [id: string]: INotification } = {};
     showNotification(notification: INotification) {
@@ -61,26 +61,26 @@ export class ANotificationsComponent extends HTMLElement implements IComponent {
                 const closeElement = element.querySelector('.close');
                 if (closeElement)
                     closeElement.addEventListener('click',
-                        () => { this.hideNotification(notification.id); }
+                        () => { this.hideNotification(notification.id!); }
                     );
 
                 const shareElement = element.querySelector('.share');
                 if (shareElement)
                     shareElement.addEventListener('click',
-                        () => { share(notification.share.text, element); }
+                        () => { share(notification.share!.text, element); }
                     );
 
                 wait(50).then(() => element.classList.add('shown'));
 
             });
 
-        this.shadowRoot.appendChild(element);
+        this.shadowRoot!.appendChild(element);
 
     }
 
     hideNotification(id: string) {
 
-        const element = this.shadowRoot.querySelector(`[data-id="${id}"]`);
+        const element = this.shadowRoot!.querySelector(`[data-id="${id}"]`);
         if (!element) return;
 
         element.classList.remove('shown');

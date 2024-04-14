@@ -1,3 +1,4 @@
 import { data } from './data';
 
-export type BitmapTypes = string & keyof typeof data & 'emptyBitmap';
+export const bitmapTypesNames = ['emptyBitmap', ...Object.keys(data)] as const;
+export type BitmapTypes = typeof bitmapTypesNames[number];

@@ -38,10 +38,12 @@ export class ANumberPadComponent extends HTMLElement implements IComponent {
         document.removeEventListener('keyup', this.clearHighlight);
     }
 
-    readonly handleClick = (e: PointerEvent) => {
-        const cell = e.composedPath().find(el => el['dataset']?.key) as HTMLElement;
+    readonly handleClick = (e: MouseEvent) => {
+        const cell = e.composedPath()
+            .find(el => el instanceof HTMLElement && el.dataset.key) as HTMLElement;
+        if (cell == null) return;
 
-        this.act(cell?.dataset?.key);
+        this.act(cell.dataset.key!);
     };
 
     readonly handleKeyDown = (e: KeyboardEvent) => {
@@ -92,7 +94,7 @@ export class ANumberPadComponent extends HTMLElement implements IComponent {
     }
 
     elements: { [key: string]: HTMLElement } = {};
-    highlightedElement: HTMLElement;
+    highlightedElement: HTMLElement | null = null;
 
     render() {
 
@@ -112,12 +114,12 @@ export class ANumberPadComponent extends HTMLElement implements IComponent {
 
     afterRender(): void {
 
-        [...this.shadowRoot.querySelectorAll<HTMLElement>('th,td')]
+        [...this.shadowRoot!.querySelectorAll<HTMLElement>('th,td')]
             .forEach(element => {
                 if (element.dataset?.key)
                     this.elements[element.dataset.key] = element;
             });
     }
 
-    @Event() press: EventEmitter<string>;
+    @Event() press!: EventEmitter<string>;
 }

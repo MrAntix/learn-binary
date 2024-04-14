@@ -13,8 +13,8 @@ export class ATimerComponent extends HTMLElement implements IComponent {
         if (this.startOnLoad) this.start();
     }
 
-    value: number;
-    valueSeconds: number;
+    value: number = 0;
+    valueSeconds: number = 0;
 
     @Watch('value') valueChange(value: number) {
 
@@ -25,7 +25,7 @@ export class ATimerComponent extends HTMLElement implements IComponent {
     @Att({ access: 'read-only' }) startOnLoad: boolean = false;
     @Att({ access: 'write-only' }) started: boolean = false;
 
-    private then: number;
+    private then: number = 0;
 
     private _timer: number = 0;
     get timer() { return this._timer; }
@@ -42,9 +42,9 @@ export class ATimerComponent extends HTMLElement implements IComponent {
             window.requestAnimationFrame(() => this.render());
     }
 
-    @Att({ access: 'read-only' }) progress: number;
-    @Att({ access: 'read-only' }) progressTotal: number;
-    progressElement: HTMLElement;
+    @Att({ access: 'read-only' }) progress: number = 0;
+    @Att({ access: 'read-only' }) progressTotal: number = 0;
+    progressElement: HTMLElement = undefined!;
 
     @Watch('progress')
     @Watch('progressTotal') progressChange() {
@@ -93,7 +93,7 @@ export class ATimerComponent extends HTMLElement implements IComponent {
         this.dispatchChange(this.value);
     }
 
-    @Event({ type: CHANGE_EVENT }) dispatchChange: EventEmitter<number>;
+    @Event({ type: CHANGE_EVENT }) dispatchChange!: EventEmitter<number>;
 
     elements: HTMLElement[] = [];
 
@@ -107,8 +107,8 @@ export class ATimerComponent extends HTMLElement implements IComponent {
     }
 
     afterRender() {
-        this.elements = [...this.shadowRoot.querySelectorAll('td')];
-        this.progressElement = this.shadowRoot.querySelector('th');
+        this.elements = [...this.shadowRoot!.querySelectorAll('td')];
+        this.progressElement = this.shadowRoot!.querySelector('th')!;
         this.progressChange();
     }
 }

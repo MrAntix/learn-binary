@@ -17,7 +17,7 @@ export class AIconComponent extends HTMLElement implements IComponent {
         this.render();
     }
 
-    @Att() type: AIconTypes;
+    @Att() type: AIconTypes | undefined = undefined;
     @Att() rotate: number = 0;
     @Att() scale: number = 1;
 

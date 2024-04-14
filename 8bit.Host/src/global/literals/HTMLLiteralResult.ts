@@ -27,7 +27,7 @@ export class HTMLLiteralResult extends Array<unknown> {
                     [...documentFragment.querySelectorAll(`[${REF_ATTR}]`)]
                         .forEach(async el => {
 
-                            const key = el.getAttribute(REF_ATTR);
+                            const key = el.getAttribute(REF_ATTR)!;
                             el.removeAttribute(REF_ATTR);
 
                             while (!el.isConnected)

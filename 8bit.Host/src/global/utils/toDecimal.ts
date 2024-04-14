@@ -7,7 +7,7 @@
 export const toDecimal: (value: (0 | 1)[]) => number
     = value => {
 
-        return value.reduce(
+        return value.reduce<number>(
             (t, b, i) => t + (b === 1 ? Math.pow(2, value.length - 1 - i) : 0),
             0
         );

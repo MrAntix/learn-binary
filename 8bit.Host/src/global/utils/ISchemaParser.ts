@@ -3,6 +3,6 @@
  * 
  * to parse a value to another value.
  */
-export interface ISchemaParser {
-    (value: unknown): unknown;
+export interface ISchemaParser<T> {
+    (value: unknown): T;
 }

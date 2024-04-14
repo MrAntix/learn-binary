@@ -7,5 +7,5 @@ import { IScoreCard } from './IScoreCard';
  * makes sure that the date is a Date object
  */
 export const ScoreCardSchema: ISchema<IScoreCard> = {
-    'date': (v: string) => new Date(v)
+    'date': v => new Date(String(v))
 };

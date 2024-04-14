@@ -31,8 +31,11 @@ export const elementToPngBlob
         canvas.width = width;
         canvas.height = height;
 
-        canvas.getContext('2d').drawImage(image, 0, 0);
+        const context = canvas.getContext('2d');
+        if (context == null) throw 'cannot get canvas context';
 
-        return new Promise(resolve => canvas.toBlob(resolve));
+        context.drawImage(image, 0, 0);
+
+        return new Promise(resolve => canvas.toBlob(blob => resolve(blob!)));
 
     };

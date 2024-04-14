@@ -3,7 +3,8 @@ import { Event } from './Event';
 jest.mock('../../logger');
 
 describe('Event decorator', () => {
-    let target: HTMLElement;
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    let target: any;
     let propertyKey: string;
 
     beforeEach(() => {
@@ -40,7 +41,7 @@ describe('Event decorator', () => {
     });
 
     it('should return true if the event was not cancellable', () => {
-        target.addEventListener(propertyKey, e => e.preventDefault());
+        target.addEventListener(propertyKey, (e: Event) => e.preventDefault());
 
         Event({ cancelable: false })(target, propertyKey);
 
@@ -48,7 +49,7 @@ describe('Event decorator', () => {
         expect(result).toBe(true);
     });
     it('should return false if the event was cancelled', () => {
-        target.addEventListener(propertyKey, e => e.preventDefault());
+        target.addEventListener(propertyKey, (e: Event) => e.preventDefault());
 
         Event({ cancelable: true })(target, propertyKey);
 

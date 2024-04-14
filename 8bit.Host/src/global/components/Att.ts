@@ -23,7 +23,7 @@ export function Att<T>(
     } = {}) {
 
     return function (
-        target: HTMLElement,
+        target: IComponent,
         propertyKey: string,
         property?: TypedPropertyDescriptor<T>
     ) {
@@ -55,19 +55,19 @@ export function Att<T>(
             logger.debug('Att.createField', fieldName);
         }
 
-        const get = property.get ?? function () { return 'arse'; };
-        const set = property.set;
+        const get = property?.get ?? function () { return null as T; };
+        const set = property?.set ?? function () { };
 
         if (o.access === 'read-write'
             || o.access === 'read-only') {
 
-            target.constructor['observedAttributes']
-                = [...(target.constructor['observedAttributes'] || []),
-                o.name];
-            const change = target['attributeChangedCallback'];
+            const targetCtor = target.constructor as IComponentConstructor;
+            targetCtor.observedAttributes
+                = [...(targetCtor.observedAttributes || []), o.name];
+            const change = target.attributeChangedCallback;
 
-            target['attributeChangedCallback']
-                = function (name: string, oldValue: string, newValue: string) {
+            target.attributeChangedCallback
+                = function (name, oldValue, newValue) {
                     if (oldValue === newValue)
                         return;
 
@@ -76,14 +76,13 @@ export function Att<T>(
                         return;
 
                     let newValueTyped: unknown = newValue;
-                    if (type === Boolean) {
-                        newValueTyped = !ATTR_FALSE_VALUES.includes(newValue);
+                    if (newValue != null) {
+                        if (type === Boolean) {
+                            newValueTyped = !ATTR_FALSE_VALUES.includes(newValue);
 
-                    } else if (type === Number) {
-                        newValueTyped = Number.parseFloat(newValue);
-
-                    } else {
-                        newValueTyped = newValue;
+                        } else if (type === Number) {
+                            newValueTyped = Number.parseFloat(newValue);
+                        }
                     }
 
                     logger.debug('Att.attributeChangedCallback', {
@@ -91,7 +90,7 @@ export function Att<T>(
                     });
 
                     if (get.call(this) !== newValueTyped)
-                        set.call(this, newValueTyped);
+                        set.call(this, newValueTyped as T);
                 };
         }
 

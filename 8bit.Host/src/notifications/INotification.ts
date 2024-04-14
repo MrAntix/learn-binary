@@ -9,6 +9,6 @@ export interface INotification {
     modal?: boolean;
     allowClose?: boolean;
     share?: {
-        text?: string;
+        text: string;
     }
 }

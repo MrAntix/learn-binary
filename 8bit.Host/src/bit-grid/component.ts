@@ -28,8 +28,8 @@ export class ABitGridComponent extends HTMLElement implements IComponent {
         this.draw();
     }
 
-    cells: HTMLElement[][];
-    binaries: HTMLElement[];
+    cells: HTMLElement[][] = [];
+    binaries: HTMLElement[] = [];
 
     get rows() { return this.value?.length ?? 0; }
     get cols() { return (this.value && this.value[0]?.length) ?? 0; }
@@ -48,7 +48,7 @@ export class ABitGridComponent extends HTMLElement implements IComponent {
     }
 
     setRowError(row: number, isError: boolean) {
-        this.cells[row][0].parentElement.classList.toggle('has-error', isError);
+        this.cells[row][0]!.parentElement!.classList.toggle('has-error', isError);
     }
 
     @Watch('showHeader')
@@ -86,19 +86,22 @@ export class ABitGridComponent extends HTMLElement implements IComponent {
 
     afterRender() {
 
-        this.cells = [...this.shadowRoot.querySelectorAll('.row')]
+        this.cells = [...this.shadowRoot!.querySelectorAll('.row')]
             .map(row => [...row.querySelectorAll<HTMLElement>('.cell')]);
-        this.binaries = [...this.shadowRoot.querySelectorAll<HTMLElement>('.binary')];
+        this.binaries = [...this.shadowRoot!.querySelectorAll<HTMLElement>('.binary')];
 
         this.addEventListener('click', this.onClick);
 
         this.draw();
     }
 
-    onClick: (e: PointerEvent) => void = e => {
+    onClick: (e: MouseEvent) => void = e => {
 
-        const cell = e.composedPath().find((el: HTMLElement) => el.classList?.contains('cell')) as HTMLElement;
-        if (!cell) return;
+        const cell = e.composedPath()
+            .find(el => el instanceof HTMLElement
+                && el.classList?.contains('cell')) as HTMLElement;
+        if (cell.dataset?.x == null
+            || cell.parentElement?.dataset?.y == null) return;
 
         const col = parseInt(cell.dataset.x);
         const row = parseInt(cell.parentElement.dataset.y);
@@ -107,15 +110,13 @@ export class ABitGridComponent extends HTMLElement implements IComponent {
     };
 
     draw() {
-        if (!this.cells) return;
-
-        this.cells.forEach((row, y) => {
+        this.cells?.forEach((row, y) => {
             if (this.showBinary && this.binaries[y]) {
                 const binary = this.value && this.value[y];
                 this.binaries[y].innerText = binary ? binary.join('') : '00000000';
             }
 
-            row[0].parentElement.classList.toggle('selected', this.selectedRow === y);
+            row[0].parentElement!.classList.toggle('selected', this.selectedRow === y);
 
             row.forEach((cell, x) =>
                 cell.classList.toggle('on', this.value ? this.value[y][x] === 1 : false)
@@ -123,7 +124,7 @@ export class ABitGridComponent extends HTMLElement implements IComponent {
         });
     }
 
-    @Event() select: EventEmitter<ABinaryGridSelect>;
+    @Event() select!: EventEmitter<ABinaryGridSelect>;
 }
 
 export interface ABinaryGridSelect {

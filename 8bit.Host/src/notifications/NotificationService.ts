@@ -5,7 +5,7 @@ import { INotificationService } from './INotificationService';
 export class NotificationService implements INotificationService {
     static ID: number = 0;
 
-    async show(notification: INotification): Promise<string> {
+    show(notification: INotification): string {
 
         notification = {
             id: `${++NotificationService.ID}`,
@@ -19,10 +19,10 @@ export class NotificationService implements INotificationService {
             })
         );
 
-        return notification.id;
+        return notification.id!;
     }
 
-    async hide(id: string): Promise<void> {
+    hide(id: string): void {
 
         window.dispatchEvent(
             new CustomEvent(HIDE_NOTIFICATION_EVENT, {
