@@ -7,8 +7,7 @@ import css from './component.css';
 import { ATimerComponent } from '../timer/component';
 import { NotificationService } from '../notifications/NotificationService';
 import { ANumberPadComponent } from '../number-pad/component';
-import { IScoreCard } from '../global';
-import { BitmapTypes } from '../global/data/BitmapTypes';
+import { IScoreCard, BitmapTypes } from '../global';
 
 @Component({
     css
@@ -22,7 +21,6 @@ export class ARootComponent extends HTMLElement implements IComponent {
             names.length === this.scores.count
         ) {
             wait(1000).then(() => {
-                //this.completed = true;
                 this.notifications.show({
                     title: '<h1>No more bitmaps to solve.<h1>',
                     body: html`
@@ -144,7 +142,6 @@ export class ARootComponent extends HTMLElement implements IComponent {
                 e.preventDefault();
 
                 const json = JSON.stringify(grid.value);
-                //await navigator.clipboard.writeText(json);
 
                 const body = json
                     .replace('[[', '[%0D%0A[')

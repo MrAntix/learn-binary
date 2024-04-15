@@ -32,7 +32,7 @@ export const elementToPngBlob
         canvas.height = height;
 
         const context = canvas.getContext('2d');
-        if (context == null) throw 'cannot get canvas context';
+        if (context == null) throw new Error('cannot get canvas context');
 
         context.drawImage(image, 0, 0);
 

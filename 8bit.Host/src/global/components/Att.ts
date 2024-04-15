@@ -63,7 +63,7 @@ export function Att<T>(
 
             const targetCtor = target.constructor as IComponentConstructor;
             targetCtor.observedAttributes
-                = [...(targetCtor.observedAttributes || []), o.name];
+                = [...(targetCtor.observedAttributes ?? []), o.name];
             const change = target.attributeChangedCallback;
 
             target.attributeChangedCallback
@@ -71,7 +71,7 @@ export function Att<T>(
                     if (oldValue === newValue)
                         return;
 
-                    change && change.call(this, name, oldValue, newValue);
+                    change?.call(this, name, oldValue, newValue);
                     if (name !== o.name)
                         return;
 

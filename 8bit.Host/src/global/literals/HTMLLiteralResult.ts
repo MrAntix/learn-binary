@@ -5,9 +5,9 @@ import { HTMLLiteralCallback } from './HTMLLiteralCallback';
  * the result of an html tag function
  */
 export class HTMLLiteralResult extends Array<unknown> {
-    constructor(items: unknown[]) {
-        super(items);
-    }
+    // constructor(items: unknown[]) {
+    //     super(items);
+    // }
 
     render = (root: Element) => new Promise<void>((resolve) => {
 

@@ -3,6 +3,5 @@
  * 
  * to parse a value to another value.
  */
-export interface ISchemaParser<T> {
-    (value: unknown): T;
-}
+export type ISchemaParser<T>
+    = (value: unknown) => T;

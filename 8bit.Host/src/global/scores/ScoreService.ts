@@ -13,7 +13,7 @@ export class ScoresService {
     constructor() {
 
         this._state = new ScoreState(JSON.parse(
-            (localStorage.getItem(ScoresService.KEYS) || '[]')
+            (localStorage.getItem(ScoresService.KEYS) ?? '[]')
         )
             .map((key: string) => parse(localStorage.getItem(key), ScoreCardSchema))
             .filter((s: IScoreCard) => s != null)

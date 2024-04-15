@@ -32,17 +32,17 @@ export class ABitGridComponent extends HTMLElement implements IComponent {
     binaries: HTMLElement[] = [];
 
     get rows() { return this.value?.length ?? 0; }
-    get cols() { return (this.value && this.value[0]?.length) ?? 0; }
+    get cols() { return (this.value?.at(0)?.length) ?? 0; }
 
     toggleValue(col: number, row: number) {
 
         if (!this.value) return;
+        const flip: (value: unknown) => (1 | 0)
+            = v => v === 1 ? 0 : 1;
 
         this.value = this.value.map((r, y) =>
             y === row
-                ? r.map((c, x) => x === col
-                    ? c === 1 ? 0 : 1
-                    : c)
+                ? r.map((c, x) => x === col ? flip(c) : c)
                 : r
         );
     }
@@ -100,6 +100,8 @@ export class ABitGridComponent extends HTMLElement implements IComponent {
         const cell = e.composedPath()
             .find(el => el instanceof HTMLElement
                 && el.classList?.contains('cell')) as HTMLElement;
+        if (cell == null) return;
+
         if (cell.dataset?.x == null
             || cell.parentElement?.dataset?.y == null) return;
 
@@ -112,7 +114,7 @@ export class ABitGridComponent extends HTMLElement implements IComponent {
     draw() {
         this.cells?.forEach((row, y) => {
             if (this.showBinary && this.binaries[y]) {
-                const binary = this.value && this.value[y];
+                const binary = this.value?.at(y);
                 this.binaries[y].innerText = binary ? binary.join('') : '00000000';
             }
 
