@@ -1,7 +1,15 @@
 {
+    "id": "uk.co.antix.eightbit",
     "theme_color": "#fefefe",
     "background_color": "#fefefe",
     "display": "fullscreen",
+    "display_override": [
+        "window-controls-overlay",
+        "fullscreen",
+        "standalone",
+        "minimal-ui",
+        "browser"
+    ],
     "orientation": "any",
     "dir": "ltr",
     "scope": "/",
@@ -10,6 +18,9 @@
     "short_name": "8Bit",
     "description": "quick game to help you learn 8bit binary. By Anthony Johnston .NET/JS Architect and Developer for hire.",
     "lang": "en",
+    "launch_handler": {
+        "client_mode": "focus-existing"
+    },
     "icons": [
         {
             "src": "/app-transparent.icon.png",
