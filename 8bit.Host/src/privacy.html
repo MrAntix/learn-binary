@@ -1,11 +1,10 @@
-<!DOCTYPE html>
+﻿<!doctype html>
 <html lang="en">
 
 <head>
-    <meta charset="UTF-8">
+    <meta charset="utf-8" />
 
-    <title>8Bit</title>
-    <meta name="version" content="[[BuildVersion]]" />
+    <title>8Bit - Privacy Policy</title>
 
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="color-scheme" content="dark light">
@@ -14,21 +13,11 @@
 
     <link rel="apple-touch-icon" href="/assets/icon/app.icon.png" />
     <link rel="shortcut icon" type="image/png" href="app.icon.png" />
-    <link rel="privacy-policy" href="https://8Bit.antix.co.uk/privacy.html">
 
     <meta name="Keywords" content="8-bit, 8bit, binary, game" />
     <meta name="Description"
           content="quick game to help you learn 8bit binary. By Anthony Johnston .NET/JS Architect and Developer for hire." />
 
-    <script async src="/app.js"></script>
-    <script async src="/main.js"></script>
-    <script async src="/sanitize.js"></script>
-    <link rel="manifest" href="/manifest.json" />
-    <script>
-        if ('serviceWorker' in navigator) {
-            navigator.serviceWorker.register('service-worker.js');
-        }
-    </script>
     <style>
         :root {
             --padding-unit: .333rem;
@@ -130,24 +119,27 @@
             color: var(--color);
 
             background-image: radial-gradient(circle at bottom right, #0001 0, transparent 100%);
-        }
 
-        noscript {
-            padding: 0 3em;
-            display: inline-block;
-            max-width: 30em;
+            padding: var(--padding-unit);
         }
     </style>
 </head>
 
 <body>
-    <a-root></a-root>
+    <div id="Container" class="privacy-policy-page">
+        <h1>8Bit</h1>
+        <h2>Privacy Policy</h2>
+        <ul>
+            <li>No Data is collected when visiting this app</li>
+            <li>Cookies are not used</li>
+            <li>Local Storage is used to store you scores</li>
+            <li>No data is used or sent outside of this app</li>
+        </ul>
 
-    <noscript>
-        <h1>8bit</h1>
-        <h2>Hello there, this is a game to help you learn binary</h2>
-        <h3>It needs JavaScript enabled to work</h3>
-    </noscript>
+        <p><a href="../">Home Page</a></p>
+    </div>
+    <p id="LastUpdated">Last Updated: 8th Jun 2024</p>
+
 </body>
 
 </html>
