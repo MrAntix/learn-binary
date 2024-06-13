@@ -44,6 +44,7 @@ module.exports = {
                 { context: 'src', from: "**/service-worker.js" },
                 { context: 'src', from: "**/*.html" },
                 { context: 'src', from: "**/*.png" },
+                { context: 'src', from: ".well-known/**.*" },
             ],
         })
     ]

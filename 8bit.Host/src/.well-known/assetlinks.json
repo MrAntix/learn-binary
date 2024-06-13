@@ -1,0 +1,14 @@
+[
+    {
+        "relation": [
+            "delegate_permission/common.handle_all_urls"
+        ],
+        "target": {
+            "namespace": "android_app",
+            "package_name": "uk.co.antix.eightbit",
+            "sha256_cert_fingerprints": [
+                "79:F5:B4:AB:AE:84:8F:DE:55:26:E3:7F:0B:B7:4F:C1:78:F3:AC:90:8A:86:2F:2F:66:E7:4D:26:2A:7C:E1:4F"
+            ]
+        }
+    }
+]
