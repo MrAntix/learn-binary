@@ -5,11 +5,20 @@
     flex-direction: column;
 }
 
+
+.content {
+    display: flex;
+    justify-content: center;
+    margin: 0 auto;
+    width: 100%;
+    max-width: 48.9rem;
+}
+
 #Timer {
     font-size: 1.333em;
     display: flex;
     justify-items: flex-end;
-
+    margin-left: auto;
     padding: var(--padding-unit);
 }
 
@@ -46,11 +55,17 @@ a-bit-grid {
     order: 2;
 }
 
+#Footer .content {
+    max-width: 56.5rem;
+}
+
 #InputRowValue {
     margin: auto;
     font-size: 4em;
     line-height: .5;
     text-align: center;
+    flex: 1 1 50%;
+    max-width: 50rem;
 }
 
 #InputRowValue[aria-selected="true"] {
@@ -65,7 +80,8 @@ a-bit-grid {
 
 #Input {
     font-size: 2em;
-    flex: 0 0 auto
+    flex: 1 1 50%;
+    max-width: 50rem;
 }
 
 a-notifications {

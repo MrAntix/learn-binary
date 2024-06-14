@@ -224,23 +224,26 @@ export class ARootComponent extends HTMLElement implements IComponent {
     render() {
 
         return html`
-            <a-timer id="Timer" bits="16"></a-timer>
-
+            <div class="content">
+                <a-timer id="Timer" bits="16"></a-timer>
+            </div>
             <div id="Footer">
-                <span id="InputRowValue">
-                    8bit<br />
-                    ${!this.completedScore && html`
-                        <small>
-                            press a number to start
-                        </small>
-                    `}
-                </span>
-                <a-number-pad disabled id="Input"></a-number-pad>
+                <div class="content">
+                    <span id="InputRowValue">
+                        8bit<br />
+                        ${!this.completedScore && html`
+                            <small>
+                                press a number to start
+                            </small>
+                        `}
+                    </span>
+                    <a-number-pad disabled id="Input"></a-number-pad>
+                </div>
             </div>
 
             <div id="Board">
-                    <a-bit-grid id="TargetGrid" show-header show-binary></a-bit-grid>
-                    <a-bit-grid id="InputGrid"></a-bit-grid> 
+                <a-bit-grid id="TargetGrid" show-header show-binary></a-bit-grid>
+                <a-bit-grid id="InputGrid"></a-bit-grid> 
             </div>
 
             <a-notifications></a-notifications>

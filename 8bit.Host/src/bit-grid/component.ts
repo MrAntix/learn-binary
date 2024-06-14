@@ -112,8 +112,6 @@ export class ABitGridComponent extends HTMLElement implements IComponent {
     };
 
     draw() {
-        console.log(this.selectedRow);
-
         this.cells?.forEach((row, y) => {
             if (this.showBinary && this.binaries[y]) {
                 const binary = this.value?.at(y);
