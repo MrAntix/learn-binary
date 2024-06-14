@@ -112,13 +112,15 @@ export class ABitGridComponent extends HTMLElement implements IComponent {
     };
 
     draw() {
+        console.log(this.selectedRow);
+
         this.cells?.forEach((row, y) => {
             if (this.showBinary && this.binaries[y]) {
                 const binary = this.value?.at(y);
                 this.binaries[y].innerText = binary ? binary.join('') : '00000000';
             }
 
-            row[0].parentElement!.classList.toggle('selected', this.selectedRow === y);
+            row[0].parentElement!.classList.toggle('selected', this.selectedRow == y);
 
             row.forEach((cell, x) =>
                 cell.classList.toggle('on', this.value ? this.value[y][x] === 1 : false)
