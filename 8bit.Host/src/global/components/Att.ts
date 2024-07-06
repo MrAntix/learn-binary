@@ -2,7 +2,11 @@ import 'reflect-metadata';
 import { logger } from '../../logger';
 
 export const ATTR_FALSE_VALUES = ['false', 'no', 'off', null, undefined];
-export type AttrAccess = 'read-write' | 'read-only' | 'write-only';
+export const ATT_ACCESS_READ_WRITE = 'read-write';
+export const ATT_ACCESS_READ_ONLY = 'read-only';
+export const ATT_ACCESS_WRITE_ONLY = 'write-only';
+export type AttrAccess = typeof ATT_ACCESS_READ_WRITE | typeof ATT_ACCESS_READ_ONLY | typeof ATT_ACCESS_WRITE_ONLY;
+
 /**
  * Decorator to sync a property and attribute on a web component
  *
@@ -32,19 +36,17 @@ export function Att<T>(
             access: AttrAccess;
         } = {
             name: propertyKey.replace(/[A-Z]+(?![a-z])|[A-Z]/g, (c, m) => (m ? '-' : '') + c.toLowerCase()),
-            access: 'read-write',
+            access: ATT_ACCESS_READ_WRITE,
             ...options
         };
 
         const type = Reflect.getMetadata('design:type', target, propertyKey);
 
-        logger.debug('Att', o, { type, property });
-
         if (!property) {
             const fieldName = `__${propertyKey}`;
 
             Object.defineProperty(target, propertyKey, {
-                get: function () { return this[fieldName]; },
+                get: function () { return this[fieldName] ?? (type === Boolean ? false : this[fieldName]); },
                 set: function (value: T) { this[fieldName] = value; },
                 configurable: true,
                 enumerable: false
@@ -55,11 +57,11 @@ export function Att<T>(
             logger.debug('Att.createField', fieldName);
         }
 
-        const get = property?.get ?? function () { return null as T; };
+        const get = property?.get ?? function () { return undefined as T; };
         const set = property?.set ?? function () { };
 
-        if (o.access === 'read-write'
-            || o.access === 'read-only') {
+        if (o.access === ATT_ACCESS_READ_WRITE
+            || o.access === ATT_ACCESS_READ_ONLY) {
 
             const targetCtor = target.constructor as IComponentConstructor;
             targetCtor.observedAttributes
@@ -94,8 +96,8 @@ export function Att<T>(
                 };
         }
 
-        if (o.access === 'read-write'
-            || o.access === 'write-only') {
+        if (o.access === ATT_ACCESS_READ_WRITE
+            || o.access === ATT_ACCESS_WRITE_ONLY) {
 
             Object.defineProperty(target, propertyKey, {
                 get,
